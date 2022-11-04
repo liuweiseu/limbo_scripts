@@ -2163,3 +2163,549 @@ DEBUG:casperfpga.snapadc:Configuring ADC operating mode
 DEBUG:casperfpga.snapadc:Reprogramming the FPGA for ADCs
 DEBUG:casperfpga.snapadc:Reprogrammed
 DEBUG:casperfpga.snapadc:Configuring clock source switch
+DEBUG:casperfpga.utils:socket_closer: called from class SkarabTransport test_host_type
+DEBUG:asyncio:Using selector: EpollSelector
+DEBUG:katcp.client:Starting client loop for ('192.168.2.100', 69)
+DEBUG:katcp.client:Failed to connect to ('192.168.2.100', 69): Stream is closed
+ERROR:tornado.application:Exception in callback functools.partial(<bound method IOLoop._discard_future_result of <tornado.platform.asyncio.AsyncIOLoop object at 0x7f253a585b80>>, <Future finished exception=KatcpClientError("Failed to connect to ('192.168.2.100', 69)")>)
+Traceback (most recent call last):
+  File "/home/wei/Software/miniconda3/envs/py38_debugging/lib/python3.8/site-packages/tornado/ioloop.py", line 740, in _run_callback
+    ret = callback()
+  File "/home/wei/Software/miniconda3/envs/py38_debugging/lib/python3.8/site-packages/tornado/ioloop.py", line 764, in _discard_future_result
+    future.result()
+  File "/home/wei/Software/miniconda3/envs/py38_debugging/lib/python3.8/site-packages/tornado/gen.py", line 782, in run
+    yielded = self.gen.send(value)
+  File "/home/wei/Software/miniconda3/envs/py38_debugging/lib/python3.8/site-packages/katcp/client.py", line 682, in _install
+    raise KatcpClientError("Failed to connect to {0!r}"
+katcp.core.KatcpClientError: Failed to connect to ('192.168.2.100', 69)
+DEBUG:katcp.client:Sending to 192.168.2.100:69: b'?alveo-memread 0x28000\n'
+INFO:katcp.ioloop_manager:Stopping ioloop <tornado.platform.asyncio.AsyncIOLoop object at 0x7f253a585b80>
+DEBUG:asyncio:Using selector: EpollSelector
+DEBUG:katcp.client:Starting client loop for ('192.168.2.100', 7147)
+INFO:katcp.ioloop_manager:Managed tornado IOloop <tornado.platform.asyncio.AsyncIOLoop object at 0x7f253a585b80> stopped
+DEBUG:katcp.client:Failed to connect to ('192.168.2.100', 7147): Stream is closed
+DEBUG:tftpy.TftpClient:Creating download context with the following params:
+INFO:katcp.ioloop_manager:Stopping ioloop <tornado.platform.asyncio.AsyncIOLoop object at 0x7f253a3fdc70>
+DEBUG:tftpy.TftpClient:host = 192.168.2.100, port = 69, filename = sys_clkcounter.0.1
+DEBUG:tftpy.TftpClient:options = {}, packethook = None, timeout = 3
+INFO:katcp.ioloop_manager:Managed tornado IOloop <tornado.platform.asyncio.AsyncIOLoop object at 0x7f253a3fdc70> stopped
+DEBUG:tftpy.TftpContext:TftpContextClientDownload.__init__()
+DEBUG:tftpy.TftpContext:file_to_transfer = sys_clkcounter.0.1, options = {}
+INFO:tftpy.TftpContext:Sending tftp download request to 192.168.2.100
+INFO:tftpy.TftpContext:    filename -> sys_clkcounter.0.1
+INFO:tftpy.TftpContext:    options -> {}
+DEBUG:tftpy.TftpContext:Set metrics.start_time to 1667524724.8307831
+DEBUG:tftpy.TftpPacketTypes:in TftpPacketWithOptions.setoptions
+DEBUG:tftpy.TftpPacketTypes:options: {}
+DEBUG:tftpy.TftpPacketTypes:setting options hash to: {}
+DEBUG:tftpy.TftpPacketTypes:in TftpPacketWithOptions.setoptions
+DEBUG:tftpy.TftpPacketTypes:options: {}
+DEBUG:tftpy.TftpPacketTypes:setting options hash to: {}
+DEBUG:tftpy.TftpPacketTypes:Encoding RRQ packet, filename = b'sys_clkcounter.0.1', mode = b'octet'
+DEBUG:tftpy.TftpPacketTypes:in TftpPacketWithOptions.getoptions
+DEBUG:tftpy.TftpPacketTypes:in TftpPacketWithOptions.getoptions
+DEBUG:tftpy.TftpPacketTypes:fmt is b'!H18sx5sx'
+DEBUG:tftpy.TftpPacketTypes:options_list is []
+DEBUG:tftpy.TftpPacketTypes:size of struct is 27
+DEBUG:tftpy.TftpPacketTypes:buffer is b'\x00\x01sys_clkcounter.0.1\x00octet\x00'
+DEBUG:tftpy.TftpContext:State is <tftpy.TftpStates.TftpStateSentRRQ object at 0x7f253a3fd910>
+WARNING:tftpy.TftpContext:Timeout waiting for traffic, retrying...
+ERROR:tftpy.TftpContext:Timed-out waiting for traffic
+WARNING:tftpy.TftpContext:resending last packet
+DEBUG:tftpy.TftpPacketTypes:in TftpPacketWithOptions.getoptions
+WARNING:tftpy.TftpStates:Resending packet RRQ packet: filename = sys_clkcounter.0.1 mode = octet on sessions <tftpy.TftpStates.TftpStateSentRRQ object at 0x7f253a3fd910>
+DEBUG:tftpy.TftpPacketTypes:in TftpPacketWithOptions.getoptions
+DEBUG:tftpy.TftpContext:Recording a dup of RRQ packet: filename = sys_clkcounter.0.1 mode = octet
+DEBUG:tftpy.TftpPacketTypes:in TftpPacketWithOptions.getoptions
+DEBUG:tftpy.TftpPacketTypes:Encoding RRQ packet, filename = b'sys_clkcounter.0.1', mode = b'octet'
+DEBUG:tftpy.TftpPacketTypes:in TftpPacketWithOptions.getoptions
+DEBUG:tftpy.TftpPacketTypes:in TftpPacketWithOptions.getoptions
+DEBUG:tftpy.TftpPacketTypes:fmt is b'!H18sx5sx'
+DEBUG:tftpy.TftpPacketTypes:options_list is []
+DEBUG:tftpy.TftpPacketTypes:size of struct is 27
+DEBUG:tftpy.TftpPacketTypes:buffer is b'\x00\x01sys_clkcounter.0.1\x00octet\x00'
+DEBUG:tftpy.TftpContext:State is <tftpy.TftpStates.TftpStateSentRRQ object at 0x7f253a3fd910>
+WARNING:tftpy.TftpContext:Timeout waiting for traffic, retrying...
+ERROR:tftpy.TftpContext:Timed-out waiting for traffic
+WARNING:tftpy.TftpContext:resending last packet
+DEBUG:tftpy.TftpPacketTypes:in TftpPacketWithOptions.getoptions
+WARNING:tftpy.TftpStates:Resending packet RRQ packet: filename = sys_clkcounter.0.1 mode = octet on sessions <tftpy.TftpStates.TftpStateSentRRQ object at 0x7f253a3fd910>
+DEBUG:tftpy.TftpPacketTypes:in TftpPacketWithOptions.getoptions
+DEBUG:tftpy.TftpContext:Recording a dup of RRQ packet: filename = sys_clkcounter.0.1 mode = octet
+DEBUG:tftpy.TftpPacketTypes:in TftpPacketWithOptions.getoptions
+DEBUG:tftpy.TftpPacketTypes:Encoding RRQ packet, filename = b'sys_clkcounter.0.1', mode = b'octet'
+DEBUG:tftpy.TftpPacketTypes:in TftpPacketWithOptions.getoptions
+DEBUG:tftpy.TftpPacketTypes:in TftpPacketWithOptions.getoptions
+DEBUG:tftpy.TftpPacketTypes:fmt is b'!H18sx5sx'
+DEBUG:tftpy.TftpPacketTypes:options_list is []
+DEBUG:tftpy.TftpPacketTypes:size of struct is 27
+DEBUG:tftpy.TftpPacketTypes:buffer is b'\x00\x01sys_clkcounter.0.1\x00octet\x00'
+DEBUG:tftpy.TftpContext:State is <tftpy.TftpStates.TftpStateSentRRQ object at 0x7f253a3fd910>
+WARNING:tftpy.TftpContext:Timeout waiting for traffic, retrying...
+ERROR:tftpy.TftpContext:Timed-out waiting for traffic
+DEBUG:tftpy.TftpContext:hit max retries, giving up
+DEBUG:tftpy.TftpContext:in TftpContext.end - closing socket
+DEBUG:tftpy.TftpContext:Set metrics.end_time to 1667524733.8474495
+DEBUG:tftpy.TftpContext:TftpMetrics.compute: duration is 9.016666412353516
+DEBUG:tftpy.TftpContext:TftpMetrics.compute: kbps is 0.0
+DEBUG:tftpy.TftpContext:in TftpContext.end - closing socket
+DEBUG:tftpy.TftpContext:Set metrics.end_time to 1667524733.852389
+DEBUG:tftpy.TftpContext:TftpMetrics.compute: duration is 9.021605968475342
+DEBUG:tftpy.TftpContext:TftpMetrics.compute: kbps is 0.0
+DEBUG:casperfpga.utils:socket_closer: called from class SkarabTransport test_host_type
+DEBUG:asyncio:Using selector: EpollSelector
+DEBUG:katcp.client:Starting client loop for ('192.168.2.102', 69)
+DEBUG:katcp.client:Failed to connect to ('192.168.2.102', 69): Stream is closed
+ERROR:tornado.application:Exception in callback functools.partial(<bound method IOLoop._discard_future_result of <tornado.platform.asyncio.AsyncIOLoop object at 0x7f25984569a0>>, <Future finished exception=KatcpClientError("Failed to connect to ('192.168.2.102', 69)")>)
+Traceback (most recent call last):
+  File "/home/wei/Software/miniconda3/envs/py38_debugging/lib/python3.8/site-packages/tornado/ioloop.py", line 740, in _run_callback
+    ret = callback()
+  File "/home/wei/Software/miniconda3/envs/py38_debugging/lib/python3.8/site-packages/tornado/ioloop.py", line 764, in _discard_future_result
+    future.result()
+  File "/home/wei/Software/miniconda3/envs/py38_debugging/lib/python3.8/site-packages/tornado/gen.py", line 782, in run
+    yielded = self.gen.send(value)
+  File "/home/wei/Software/miniconda3/envs/py38_debugging/lib/python3.8/site-packages/katcp/client.py", line 682, in _install
+    raise KatcpClientError("Failed to connect to {0!r}"
+katcp.core.KatcpClientError: Failed to connect to ('192.168.2.102', 69)
+DEBUG:katcp.client:Sending to 192.168.2.102:69: b'?alveo-memread 0x28000\n'
+DEBUG:asyncio:Using selector: EpollSelector
+INFO:katcp.ioloop_manager:Stopping ioloop <tornado.platform.asyncio.AsyncIOLoop object at 0x7f25984569a0>
+INFO:katcp.ioloop_manager:Managed tornado IOloop <tornado.platform.asyncio.AsyncIOLoop object at 0x7f25984569a0> stopped
+DEBUG:katcp.client:Starting client loop for ('192.168.2.102', 7147)
+DEBUG:katcp.client:Failed to connect to ('192.168.2.102', 7147): Stream is closed
+DEBUG:tftpy.TftpClient:Creating download context with the following params:
+INFO:katcp.ioloop_manager:Stopping ioloop <tornado.platform.asyncio.AsyncIOLoop object at 0x7f25386f93a0>
+DEBUG:tftpy.TftpClient:host = 192.168.2.102, port = 69, filename = sys_clkcounter.0.1
+DEBUG:tftpy.TftpClient:options = {}, packethook = None, timeout = 3
+DEBUG:tftpy.TftpContext:TftpContextClientDownload.__init__()
+DEBUG:tftpy.TftpContext:file_to_transfer = sys_clkcounter.0.1, options = {}
+INFO:tftpy.TftpContext:Sending tftp download request to 192.168.2.102
+INFO:tftpy.TftpContext:    filename -> sys_clkcounter.0.1
+INFO:tftpy.TftpContext:    options -> {}
+INFO:katcp.ioloop_manager:Managed tornado IOloop <tornado.platform.asyncio.AsyncIOLoop object at 0x7f25386f93a0> stopped
+DEBUG:tftpy.TftpContext:Set metrics.start_time to 1667524785.7502131
+DEBUG:tftpy.TftpPacketTypes:in TftpPacketWithOptions.setoptions
+DEBUG:tftpy.TftpPacketTypes:options: {}
+DEBUG:tftpy.TftpPacketTypes:setting options hash to: {}
+DEBUG:tftpy.TftpPacketTypes:in TftpPacketWithOptions.setoptions
+DEBUG:tftpy.TftpPacketTypes:options: {}
+DEBUG:tftpy.TftpPacketTypes:setting options hash to: {}
+DEBUG:tftpy.TftpPacketTypes:Encoding RRQ packet, filename = b'sys_clkcounter.0.1', mode = b'octet'
+DEBUG:tftpy.TftpPacketTypes:in TftpPacketWithOptions.getoptions
+DEBUG:tftpy.TftpPacketTypes:in TftpPacketWithOptions.getoptions
+DEBUG:tftpy.TftpPacketTypes:fmt is b'!H18sx5sx'
+DEBUG:tftpy.TftpPacketTypes:options_list is []
+DEBUG:tftpy.TftpPacketTypes:size of struct is 27
+DEBUG:tftpy.TftpPacketTypes:buffer is b'\x00\x01sys_clkcounter.0.1\x00octet\x00'
+DEBUG:tftpy.TftpContext:State is <tftpy.TftpStates.TftpStateSentRRQ object at 0x7f25386f99a0>
+DEBUG:tftpy.TftpContext:Received 8 bytes from 192.168.2.102:69
+DEBUG:tftpy.TftpPacketFactory:parsing a 8 byte packet
+DEBUG:tftpy.TftpPacketFactory:opcode is 3
+DEBUG:tftpy.TftpPacketTypes:decoding DAT packet, block number 1
+DEBUG:tftpy.TftpPacketTypes:should be 8 bytes in the packet total
+DEBUG:tftpy.TftpPacketTypes:found 4 bytes of data
+INFO:tftpy.TftpStates:Set remote port for session to 69
+INFO:tftpy.TftpStates:Received DAT from server
+INFO:tftpy.TftpStates:Handling DAT packet - block 1
+DEBUG:tftpy.TftpStates:Expecting block 1
+DEBUG:tftpy.TftpStates:Good, received block 1 in sequence
+DEBUG:tftpy.TftpStates:In sendACK, passed blocknumber is None
+INFO:tftpy.TftpStates:Sending ack to block 1
+DEBUG:tftpy.TftpPacketTypes:encoding ACK: opcode = 4, block = 1
+DEBUG:tftpy.TftpStates:Writing 4 bytes to output file
+INFO:tftpy.TftpStates:End of file detected
+DEBUG:tftpy.TftpContext:in TftpContext.end - closing socket
+DEBUG:tftpy.TftpContext:Set metrics.end_time to 1667524785.754841
+DEBUG:tftpy.TftpContext:TftpMetrics.compute: duration is 0.00462794303894043
+DEBUG:tftpy.TftpContext:TftpMetrics.compute: kbps is 6.752459945391788
+INFO:tftpy.TftpClient:
+INFO:tftpy.TftpClient:Download complete.
+INFO:tftpy.TftpClient:Downloaded 4.00 bytes in 0.00 seconds
+INFO:tftpy.TftpClient:Average rate: 6.75 kbps
+INFO:tftpy.TftpClient:0.00 bytes in resent data
+INFO:tftpy.TftpClient:Received 0 duplicate packets
+DEBUG:tftpy.TftpContext:in TftpContext.end - closing socket
+DEBUG:tftpy.TftpContext:Set metrics.end_time to 1667524785.7557352
+DEBUG:tftpy.TftpContext:TftpMetrics.compute: duration is 0.005522012710571289
+DEBUG:tftpy.TftpContext:TftpMetrics.compute: kbps is 5.6591684296878375
+DEBUG:tftpy.TftpContext:in TftpContext.end - closing socket
+DEBUG:tftpy.TftpContext:Set metrics.end_time to 1667524785.7561514
+DEBUG:tftpy.TftpContext:TftpMetrics.compute: duration is 0.005938291549682617
+DEBUG:tftpy.TftpContext:TftpMetrics.compute: kbps is 5.262456337575782
+DEBUG:casperfpga.utils:Parsing file fpg/dsa10_2022-11-02_1656.fpg for system information
+DEBUG:casperfpga.bitfield:New Bitfield(acc_16) with 0 fields
+DEBUG:casperfpga.memory:New Memory acc_16@0x00010000: 64bits * 8192, fields[]
+DEBUG:casperfpga.sbram:New Sbram acc_16@0x00010000: 64bits * 8192, fields[]
+DEBUG:casperfpga.bitfield:New Bitfield(acc_full) with 0 fields
+DEBUG:casperfpga.memory:New Memory acc_full@0x00020000: 64bits * 8192, fields[]
+DEBUG:casperfpga.sbram:New Sbram acc_full@0x00020000: 64bits * 8192, fields[]
+DEBUG:casperfpga.bitfield:New Bitfield(adc_snap_bram) with 0 fields
+DEBUG:casperfpga.memory:New Memory adc_snap_bram@0x00030000: 64bits * 1024, fields[]
+DEBUG:casperfpga.sbram:New Sbram adc_snap_bram@0x00030000: 64bits * 1024, fields[]
+DEBUG:casperfpga.bitfield:New Bitfield(debug1_pfb) with 0 fields
+DEBUG:casperfpga.memory:New Memory debug1_pfb@0x00032000: 32bits * 2048, fields[]
+DEBUG:casperfpga.sbram:New Sbram debug1_pfb@0x00032000: 32bits * 2048, fields[]
+DEBUG:casperfpga.bitfield:New Bitfield(debug2_pfb) with 0 fields
+DEBUG:casperfpga.memory:New Memory debug2_pfb@0x00034000: 32bits * 2048, fields[]
+DEBUG:casperfpga.sbram:New Sbram debug2_pfb@0x00034000: 32bits * 2048, fields[]
+DEBUG:casperfpga.bitfield:New Bitfield(debug3_pfb) with 0 fields
+DEBUG:casperfpga.memory:New Memory debug3_pfb@0x00036000: 32bits * 2048, fields[]
+DEBUG:casperfpga.sbram:New Sbram debug3_pfb@0x00036000: 32bits * 2048, fields[]
+DEBUG:casperfpga.bitfield:New Bitfield(debug4_pfb) with 0 fields
+DEBUG:casperfpga.memory:New Memory debug4_pfb@0x00038000: 32bits * 2048, fields[]
+DEBUG:casperfpga.sbram:New Sbram debug4_pfb@0x00038000: 32bits * 2048, fields[]
+DEBUG:casperfpga.bitfield:New Bitfield(debug_eq_dat) with 0 fields
+DEBUG:casperfpga.memory:New Memory debug_eq_dat@0x0003a000: 32bits * 2048, fields[]
+DEBUG:casperfpga.sbram:New Sbram debug_eq_dat@0x0003a000: 32bits * 2048, fields[]
+DEBUG:casperfpga.bitfield:New Bitfield(eq_0_coeffs) with 0 fields
+DEBUG:casperfpga.memory:New Memory eq_0_coeffs@0x0003c000: 32bits * 2048, fields[]
+DEBUG:casperfpga.sbram:New Sbram eq_0_coeffs@0x0003c000: 32bits * 2048, fields[]
+DEBUG:casperfpga.bitfield:New Bitfield(eq_1_coeffs) with 0 fields
+DEBUG:casperfpga.memory:New Memory eq_1_coeffs@0x0003e000: 32bits * 2048, fields[]
+DEBUG:casperfpga.sbram:New Sbram eq_1_coeffs@0x0003e000: 32bits * 2048, fields[]
+DEBUG:casperfpga.bitfield:New Bitfield(eq_2_coeffs) with 0 fields
+DEBUG:casperfpga.memory:New Memory eq_2_coeffs@0x00040000: 32bits * 2048, fields[]
+DEBUG:casperfpga.sbram:New Sbram eq_2_coeffs@0x00040000: 32bits * 2048, fields[]
+DEBUG:casperfpga.bitfield:New Bitfield(eq_3_coeffs) with 0 fields
+DEBUG:casperfpga.memory:New Memory eq_3_coeffs@0x00042000: 32bits * 2048, fields[]
+DEBUG:casperfpga.sbram:New Sbram eq_3_coeffs@0x00042000: 32bits * 2048, fields[]
+DEBUG:casperfpga.bitfield:New Bitfield(raw1) with 0 fields
+DEBUG:casperfpga.memory:New Memory raw1@0x00044000: 64bits * 1024, fields[]
+DEBUG:casperfpga.sbram:New Sbram raw1@0x00044000: 64bits * 1024, fields[]
+DEBUG:casperfpga.bitfield:New Bitfield(raw2) with 0 fields
+DEBUG:casperfpga.memory:New Memory raw2@0x00046000: 64bits * 1024, fields[]
+DEBUG:casperfpga.sbram:New Sbram raw2@0x00046000: 64bits * 1024, fields[]
+DEBUG:casperfpga.bitfield:New Bitfield(acc_len) with 0 fields
+DEBUG:casperfpga.memory:New Memory acc_len@0x0004b104: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register acc_len@0x0004b104: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(adc_snap_ctrl) with 0 fields
+DEBUG:casperfpga.memory:New Memory adc_snap_ctrl@0x0004b108: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register adc_snap_ctrl@0x0004b108: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(adc_snap_status) with 0 fields
+DEBUG:casperfpga.memory:New Memory adc_snap_status@0x0004b10c: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register adc_snap_status@0x0004b10c: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(adc_trig) with 0 fields
+DEBUG:casperfpga.memory:New Memory adc_trig@0x0004b110: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register adc_trig@0x0004b110: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(coeff1) with 0 fields
+DEBUG:casperfpga.memory:New Memory coeff1@0x0004b114: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register coeff1@0x0004b114: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(del1) with 0 fields
+DEBUG:casperfpga.memory:New Memory del1@0x0004b118: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register del1@0x0004b118: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(del2) with 0 fields
+DEBUG:casperfpga.memory:New Memory del2@0x0004b11c: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register del2@0x0004b11c: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(del3) with 0 fields
+DEBUG:casperfpga.memory:New Memory del3@0x0004b120: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register del3@0x0004b120: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(del4) with 0 fields
+DEBUG:casperfpga.memory:New Memory del4@0x0004b124: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register del4@0x0004b124: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(del5) with 0 fields
+DEBUG:casperfpga.memory:New Memory del5@0x0004b128: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register del5@0x0004b128: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(del6) with 0 fields
+DEBUG:casperfpga.memory:New Memory del6@0x0004b12c: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register del6@0x0004b12c: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(del7) with 0 fields
+DEBUG:casperfpga.memory:New Memory del7@0x0004b130: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register del7@0x0004b130: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(del8) with 0 fields
+DEBUG:casperfpga.memory:New Memory del8@0x0004b134: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register del8@0x0004b134: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(eq_clip) with 0 fields
+DEBUG:casperfpga.memory:New Memory eq_clip@0x0004b138: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register eq_clip@0x0004b138: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(eth_ctrl) with 0 fields
+DEBUG:casperfpga.memory:New Memory eth_ctrl@0x0004b13c: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register eth_ctrl@0x0004b13c: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(eth_sw_status) with 0 fields
+DEBUG:casperfpga.memory:New Memory eth_sw_status@0x0004b140: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register eth_sw_status@0x0004b140: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(eth1_ctrl) with 0 fields
+DEBUG:casperfpga.memory:New Memory eth1_ctrl@0x0004b144: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register eth1_ctrl@0x0004b144: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(eth1_sw_status) with 0 fields
+DEBUG:casperfpga.memory:New Memory eth1_sw_status@0x0004b148: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register eth1_sw_status@0x0004b148: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(fft_of_count) with 0 fields
+DEBUG:casperfpga.memory:New Memory fft_of_count@0x0004b14c: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register fft_of_count@0x0004b14c: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(fft_shift) with 0 fields
+DEBUG:casperfpga.memory:New Memory fft_shift@0x0004b150: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register fft_shift@0x0004b150: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(force_sync) with 0 fields
+DEBUG:casperfpga.memory:New Memory force_sync@0x0004b154: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register force_sync@0x0004b154: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(ip) with 0 fields
+DEBUG:casperfpga.memory:New Memory ip@0x0004b158: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register ip@0x0004b158: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(ip1) with 0 fields
+DEBUG:casperfpga.memory:New Memory ip1@0x0004b15c: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register ip1@0x0004b15c: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(port) with 0 fields
+DEBUG:casperfpga.memory:New Memory port@0x0004b160: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register port@0x0004b160: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(port1) with 0 fields
+DEBUG:casperfpga.memory:New Memory port1@0x0004b164: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register port1@0x0004b164: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(reg_arm) with 0 fields
+DEBUG:casperfpga.memory:New Memory reg_arm@0x0004b168: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register reg_arm@0x0004b168: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(scaling) with 0 fields
+DEBUG:casperfpga.memory:New Memory scaling@0x0004b16c: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register scaling@0x0004b16c: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(sel1) with 0 fields
+DEBUG:casperfpga.memory:New Memory sel1@0x0004b170: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register sel1@0x0004b170: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(snap_index) with 0 fields
+DEBUG:casperfpga.memory:New Memory snap_index@0x0004b174: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register snap_index@0x0004b174: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(eth_gbe0) with 0 fields
+DEBUG:casperfpga.memory:New Memory eth_gbe0@0x0004b19c: 32bits * 15360, fields[]
+DEBUG:casperfpga.bitfield:New Bitfield(eth1_gbe1) with 0 fields
+DEBUG:casperfpga.memory:New Memory eth1_gbe1@0x0005a19c: 32bits * 15360, fields[]
+DEBUG:casperfpga.bitfield:New Bitfield(adc_snap) with 0 fields
+DEBUG:casperfpga.memory:New Memory adc_snap: {}
+DEBUG:casperfpga.snap:New Snap adc_snap: {'tag': 'casper:snapshot', 'storage': 'bram', 'dram_dimm': '1', 'dram_clock': '200', 'nsamples': '10', 'data_width': '64', 'offset': 'off', 'circap': 'off', 'value': 'off', 'ext_arm': 'off', 'ext_circ': 'off', 'provide_outputs': 'on', 'use_dsp48': 'off'}
+DEBUG:casperfpga.bitfield:New Bitfield(sys_board_id) with 0 fields
+DEBUG:casperfpga.memory:New Memory sys_board_id@0x0004b17c: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register sys_board_id@0x0004b17c: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(sys_rev) with 0 fields
+DEBUG:casperfpga.memory:New Memory sys_rev@0x0004b180: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register sys_rev@0x0004b180: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(sys_rev_rcs) with 0 fields
+DEBUG:casperfpga.memory:New Memory sys_rev_rcs@0x0004b188: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register sys_rev_rcs@0x0004b188: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(sys_scratchpad) with 0 fields
+DEBUG:casperfpga.memory:New Memory sys_scratchpad@0x0004b18c: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register sys_scratchpad@0x0004b18c: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(sys_clkcounter) with 0 fields
+DEBUG:casperfpga.memory:New Memory sys_clkcounter@0x0004b190: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register sys_clkcounter@0x0004b190: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(lmx_ctrl) with 0 fields
+DEBUG:casperfpga.memory:New Memory lmx_ctrl@0x00048000: 32bits * 1, fields[]
+DEBUG:casperfpga.bitfield:New Bitfield(adc16_controller) with 0 fields
+DEBUG:casperfpga.memory:New Memory adc16_controller@0x00048004: 32bits * 64, fields[]
+DEBUG:casperfpga.bitfield:New Bitfield(adc16_wb_ram0) with 0 fields
+DEBUG:casperfpga.memory:New Memory adc16_wb_ram0@0x00048104: 32bits * 1024, fields[]
+DEBUG:casperfpga.bitfield:New Bitfield(adc16_wb_ram1) with 0 fields
+DEBUG:casperfpga.memory:New Memory adc16_wb_ram1@0x00049104: 32bits * 1024, fields[]
+DEBUG:casperfpga.bitfield:New Bitfield(adc16_wb_ram2) with 0 fields
+DEBUG:casperfpga.memory:New Memory adc16_wb_ram2@0x0004a104: 32bits * 1024, fields[]
+DEBUG:casperfpga.bitfield:New Bitfield(adc16_use_synth) with 0 fields
+DEBUG:casperfpga.memory:New Memory adc16_use_synth@0x0004b178: 32bits * 1, fields[]
+DEBUG:casperfpga.bitfield:New Bitfield(sys_block) with 0 fields
+DEBUG:casperfpga.memory:New Memory sys_block@0x0004b17c: 32bits * 8, fields[]
+DEBUG:casperfpga.snapadc:Reseting frequency synthesizer
+DEBUG:casperfpga.snapadc:Disabling Synth output A
+DEBUG:casperfpga.snapadc:Configuring frequency synthesizer
+INFO:casperfpga.wishbonedevice(192.168.2.102:lmx_ctrl):LMX2581 locked at 500 MHz
+INFO:casperfpga.snapadc:Configuring clock source switch
+DEBUG:casperfpga.snapadc:Reseting adc_unit
+DEBUG:casperfpga.snapadc:Initialising ADCs
+DEBUG:casperfpga.snapadc:Configuring ADC operating mode
+DEBUG:casperfpga.snapadc:Reprogramming the FPGA for ADCs
+DEBUG:casperfpga.snapadc:Reprogrammed
+DEBUG:casperfpga.snapadc:Configuring clock source switch
+DEBUG:casperfpga.utils:socket_closer: called from class SkarabTransport test_host_type
+DEBUG:asyncio:Using selector: EpollSelector
+DEBUG:katcp.client:Starting client loop for ('192.168.2.102', 69)
+DEBUG:katcp.client:Failed to connect to ('192.168.2.102', 69): Stream is closed
+ERROR:tornado.application:Exception in callback functools.partial(<bound method IOLoop._discard_future_result of <tornado.platform.asyncio.AsyncIOLoop object at 0x7f2538891f70>>, <Future finished exception=KatcpClientError("Failed to connect to ('192.168.2.102', 69)")>)
+Traceback (most recent call last):
+  File "/home/wei/Software/miniconda3/envs/py38_debugging/lib/python3.8/site-packages/tornado/ioloop.py", line 740, in _run_callback
+    ret = callback()
+  File "/home/wei/Software/miniconda3/envs/py38_debugging/lib/python3.8/site-packages/tornado/ioloop.py", line 764, in _discard_future_result
+    future.result()
+  File "/home/wei/Software/miniconda3/envs/py38_debugging/lib/python3.8/site-packages/tornado/gen.py", line 782, in run
+    yielded = self.gen.send(value)
+  File "/home/wei/Software/miniconda3/envs/py38_debugging/lib/python3.8/site-packages/katcp/client.py", line 682, in _install
+    raise KatcpClientError("Failed to connect to {0!r}"
+katcp.core.KatcpClientError: Failed to connect to ('192.168.2.102', 69)
+DEBUG:katcp.client:Sending to 192.168.2.102:69: b'?alveo-memread 0x28000\n'
+DEBUG:asyncio:Using selector: EpollSelector
+INFO:katcp.ioloop_manager:Stopping ioloop <tornado.platform.asyncio.AsyncIOLoop object at 0x7f2538891f70>
+DEBUG:katcp.client:Starting client loop for ('192.168.2.102', 7147)
+INFO:katcp.ioloop_manager:Managed tornado IOloop <tornado.platform.asyncio.AsyncIOLoop object at 0x7f2538891f70> stopped
+DEBUG:katcp.client:Failed to connect to ('192.168.2.102', 7147): Stream is closed
+INFO:katcp.ioloop_manager:Stopping ioloop <tornado.platform.asyncio.AsyncIOLoop object at 0x7f259844c550>
+INFO:katcp.ioloop_manager:Managed tornado IOloop <tornado.platform.asyncio.AsyncIOLoop object at 0x7f259844c550> stopped
+DEBUG:casperfpga.utils:Parsing file fpg/dsa10_2022-11-02_1656.fpg for system information
+DEBUG:casperfpga.bitfield:New Bitfield(acc_16) with 0 fields
+DEBUG:casperfpga.memory:New Memory acc_16@0x00010000: 64bits * 8192, fields[]
+DEBUG:casperfpga.sbram:New Sbram acc_16@0x00010000: 64bits * 8192, fields[]
+DEBUG:casperfpga.bitfield:New Bitfield(acc_full) with 0 fields
+DEBUG:casperfpga.memory:New Memory acc_full@0x00020000: 64bits * 8192, fields[]
+DEBUG:casperfpga.sbram:New Sbram acc_full@0x00020000: 64bits * 8192, fields[]
+DEBUG:casperfpga.bitfield:New Bitfield(adc_snap_bram) with 0 fields
+DEBUG:casperfpga.memory:New Memory adc_snap_bram@0x00030000: 64bits * 1024, fields[]
+DEBUG:casperfpga.sbram:New Sbram adc_snap_bram@0x00030000: 64bits * 1024, fields[]
+DEBUG:casperfpga.bitfield:New Bitfield(debug1_pfb) with 0 fields
+DEBUG:casperfpga.memory:New Memory debug1_pfb@0x00032000: 32bits * 2048, fields[]
+DEBUG:casperfpga.sbram:New Sbram debug1_pfb@0x00032000: 32bits * 2048, fields[]
+DEBUG:casperfpga.bitfield:New Bitfield(debug2_pfb) with 0 fields
+DEBUG:casperfpga.memory:New Memory debug2_pfb@0x00034000: 32bits * 2048, fields[]
+DEBUG:casperfpga.sbram:New Sbram debug2_pfb@0x00034000: 32bits * 2048, fields[]
+DEBUG:casperfpga.bitfield:New Bitfield(debug3_pfb) with 0 fields
+DEBUG:casperfpga.memory:New Memory debug3_pfb@0x00036000: 32bits * 2048, fields[]
+DEBUG:casperfpga.sbram:New Sbram debug3_pfb@0x00036000: 32bits * 2048, fields[]
+DEBUG:casperfpga.bitfield:New Bitfield(debug4_pfb) with 0 fields
+DEBUG:casperfpga.memory:New Memory debug4_pfb@0x00038000: 32bits * 2048, fields[]
+DEBUG:casperfpga.sbram:New Sbram debug4_pfb@0x00038000: 32bits * 2048, fields[]
+DEBUG:casperfpga.bitfield:New Bitfield(debug_eq_dat) with 0 fields
+DEBUG:casperfpga.memory:New Memory debug_eq_dat@0x0003a000: 32bits * 2048, fields[]
+DEBUG:casperfpga.sbram:New Sbram debug_eq_dat@0x0003a000: 32bits * 2048, fields[]
+DEBUG:casperfpga.bitfield:New Bitfield(eq_0_coeffs) with 0 fields
+DEBUG:casperfpga.memory:New Memory eq_0_coeffs@0x0003c000: 32bits * 2048, fields[]
+DEBUG:casperfpga.sbram:New Sbram eq_0_coeffs@0x0003c000: 32bits * 2048, fields[]
+DEBUG:casperfpga.bitfield:New Bitfield(eq_1_coeffs) with 0 fields
+DEBUG:casperfpga.memory:New Memory eq_1_coeffs@0x0003e000: 32bits * 2048, fields[]
+DEBUG:casperfpga.sbram:New Sbram eq_1_coeffs@0x0003e000: 32bits * 2048, fields[]
+DEBUG:casperfpga.bitfield:New Bitfield(eq_2_coeffs) with 0 fields
+DEBUG:casperfpga.memory:New Memory eq_2_coeffs@0x00040000: 32bits * 2048, fields[]
+DEBUG:casperfpga.sbram:New Sbram eq_2_coeffs@0x00040000: 32bits * 2048, fields[]
+DEBUG:casperfpga.bitfield:New Bitfield(eq_3_coeffs) with 0 fields
+DEBUG:casperfpga.memory:New Memory eq_3_coeffs@0x00042000: 32bits * 2048, fields[]
+DEBUG:casperfpga.sbram:New Sbram eq_3_coeffs@0x00042000: 32bits * 2048, fields[]
+DEBUG:casperfpga.bitfield:New Bitfield(raw1) with 0 fields
+DEBUG:casperfpga.memory:New Memory raw1@0x00044000: 64bits * 1024, fields[]
+DEBUG:casperfpga.sbram:New Sbram raw1@0x00044000: 64bits * 1024, fields[]
+DEBUG:casperfpga.bitfield:New Bitfield(raw2) with 0 fields
+DEBUG:casperfpga.memory:New Memory raw2@0x00046000: 64bits * 1024, fields[]
+DEBUG:casperfpga.sbram:New Sbram raw2@0x00046000: 64bits * 1024, fields[]
+DEBUG:casperfpga.bitfield:New Bitfield(acc_len) with 0 fields
+DEBUG:casperfpga.memory:New Memory acc_len@0x0004b104: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register acc_len@0x0004b104: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(adc_snap_ctrl) with 0 fields
+DEBUG:casperfpga.memory:New Memory adc_snap_ctrl@0x0004b108: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register adc_snap_ctrl@0x0004b108: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(adc_snap_status) with 0 fields
+DEBUG:casperfpga.memory:New Memory adc_snap_status@0x0004b10c: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register adc_snap_status@0x0004b10c: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(adc_trig) with 0 fields
+DEBUG:casperfpga.memory:New Memory adc_trig@0x0004b110: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register adc_trig@0x0004b110: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(coeff1) with 0 fields
+DEBUG:casperfpga.memory:New Memory coeff1@0x0004b114: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register coeff1@0x0004b114: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(del1) with 0 fields
+DEBUG:casperfpga.memory:New Memory del1@0x0004b118: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register del1@0x0004b118: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(del2) with 0 fields
+DEBUG:casperfpga.memory:New Memory del2@0x0004b11c: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register del2@0x0004b11c: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(del3) with 0 fields
+DEBUG:casperfpga.memory:New Memory del3@0x0004b120: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register del3@0x0004b120: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(del4) with 0 fields
+DEBUG:casperfpga.memory:New Memory del4@0x0004b124: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register del4@0x0004b124: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(del5) with 0 fields
+DEBUG:casperfpga.memory:New Memory del5@0x0004b128: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register del5@0x0004b128: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(del6) with 0 fields
+DEBUG:casperfpga.memory:New Memory del6@0x0004b12c: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register del6@0x0004b12c: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(del7) with 0 fields
+DEBUG:casperfpga.memory:New Memory del7@0x0004b130: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register del7@0x0004b130: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(del8) with 0 fields
+DEBUG:casperfpga.memory:New Memory del8@0x0004b134: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register del8@0x0004b134: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(eq_clip) with 0 fields
+DEBUG:casperfpga.memory:New Memory eq_clip@0x0004b138: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register eq_clip@0x0004b138: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(eth_ctrl) with 0 fields
+DEBUG:casperfpga.memory:New Memory eth_ctrl@0x0004b13c: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register eth_ctrl@0x0004b13c: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(eth_sw_status) with 0 fields
+DEBUG:casperfpga.memory:New Memory eth_sw_status@0x0004b140: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register eth_sw_status@0x0004b140: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(eth1_ctrl) with 0 fields
+DEBUG:casperfpga.memory:New Memory eth1_ctrl@0x0004b144: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register eth1_ctrl@0x0004b144: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(eth1_sw_status) with 0 fields
+DEBUG:casperfpga.memory:New Memory eth1_sw_status@0x0004b148: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register eth1_sw_status@0x0004b148: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(fft_of_count) with 0 fields
+DEBUG:casperfpga.memory:New Memory fft_of_count@0x0004b14c: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register fft_of_count@0x0004b14c: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(fft_shift) with 0 fields
+DEBUG:casperfpga.memory:New Memory fft_shift@0x0004b150: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register fft_shift@0x0004b150: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(force_sync) with 0 fields
+DEBUG:casperfpga.memory:New Memory force_sync@0x0004b154: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register force_sync@0x0004b154: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(ip) with 0 fields
+DEBUG:casperfpga.memory:New Memory ip@0x0004b158: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register ip@0x0004b158: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(ip1) with 0 fields
+DEBUG:casperfpga.memory:New Memory ip1@0x0004b15c: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register ip1@0x0004b15c: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(port) with 0 fields
+DEBUG:casperfpga.memory:New Memory port@0x0004b160: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register port@0x0004b160: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(port1) with 0 fields
+DEBUG:casperfpga.memory:New Memory port1@0x0004b164: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register port1@0x0004b164: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(reg_arm) with 0 fields
+DEBUG:casperfpga.memory:New Memory reg_arm@0x0004b168: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register reg_arm@0x0004b168: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(scaling) with 0 fields
+DEBUG:casperfpga.memory:New Memory scaling@0x0004b16c: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register scaling@0x0004b16c: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(sel1) with 0 fields
+DEBUG:casperfpga.memory:New Memory sel1@0x0004b170: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register sel1@0x0004b170: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(snap_index) with 0 fields
+DEBUG:casperfpga.memory:New Memory snap_index@0x0004b174: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register snap_index@0x0004b174: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(eth_gbe0) with 0 fields
+DEBUG:casperfpga.memory:New Memory eth_gbe0@0x0004b19c: 32bits * 15360, fields[]
+DEBUG:casperfpga.bitfield:New Bitfield(eth1_gbe1) with 0 fields
+DEBUG:casperfpga.memory:New Memory eth1_gbe1@0x0005a19c: 32bits * 15360, fields[]
+DEBUG:casperfpga.bitfield:New Bitfield(adc_snap) with 0 fields
+DEBUG:casperfpga.memory:New Memory adc_snap: {}
+DEBUG:casperfpga.snap:New Snap adc_snap: {'tag': 'casper:snapshot', 'storage': 'bram', 'dram_dimm': '1', 'dram_clock': '200', 'nsamples': '10', 'data_width': '64', 'offset': 'off', 'circap': 'off', 'value': 'off', 'ext_arm': 'off', 'ext_circ': 'off', 'provide_outputs': 'on', 'use_dsp48': 'off'}
+DEBUG:casperfpga.bitfield:New Bitfield(sys_board_id) with 0 fields
+DEBUG:casperfpga.memory:New Memory sys_board_id@0x0004b17c: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register sys_board_id@0x0004b17c: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(sys_rev) with 0 fields
+DEBUG:casperfpga.memory:New Memory sys_rev@0x0004b180: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register sys_rev@0x0004b180: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(sys_rev_rcs) with 0 fields
+DEBUG:casperfpga.memory:New Memory sys_rev_rcs@0x0004b188: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register sys_rev_rcs@0x0004b188: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(sys_scratchpad) with 0 fields
+DEBUG:casperfpga.memory:New Memory sys_scratchpad@0x0004b18c: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register sys_scratchpad@0x0004b18c: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(sys_clkcounter) with 0 fields
+DEBUG:casperfpga.memory:New Memory sys_clkcounter@0x0004b190: 32bits * 1, fields[]
+DEBUG:casperfpga.register:New Register sys_clkcounter@0x0004b190: 32bits * 1, fields[reg(0, 32, 0, 0)]
+DEBUG:casperfpga.bitfield:New Bitfield(lmx_ctrl) with 0 fields
+DEBUG:casperfpga.memory:New Memory lmx_ctrl@0x00048000: 32bits * 1, fields[]
+DEBUG:casperfpga.bitfield:New Bitfield(adc16_controller) with 0 fields
+DEBUG:casperfpga.memory:New Memory adc16_controller@0x00048004: 32bits * 64, fields[]
+DEBUG:casperfpga.bitfield:New Bitfield(adc16_wb_ram0) with 0 fields
+DEBUG:casperfpga.memory:New Memory adc16_wb_ram0@0x00048104: 32bits * 1024, fields[]
+DEBUG:casperfpga.bitfield:New Bitfield(adc16_wb_ram1) with 0 fields
+DEBUG:casperfpga.memory:New Memory adc16_wb_ram1@0x00049104: 32bits * 1024, fields[]
+DEBUG:casperfpga.bitfield:New Bitfield(adc16_wb_ram2) with 0 fields
+DEBUG:casperfpga.memory:New Memory adc16_wb_ram2@0x0004a104: 32bits * 1024, fields[]
+DEBUG:casperfpga.bitfield:New Bitfield(adc16_use_synth) with 0 fields
+DEBUG:casperfpga.memory:New Memory adc16_use_synth@0x0004b178: 32bits * 1, fields[]
+DEBUG:casperfpga.bitfield:New Bitfield(sys_block) with 0 fields
+DEBUG:casperfpga.memory:New Memory sys_block@0x0004b17c: 32bits * 8, fields[]
+DEBUG:casperfpga.snapadc:Reseting frequency synthesizer
+DEBUG:casperfpga.snapadc:Disabling Synth output A
+DEBUG:casperfpga.snapadc:Configuring frequency synthesizer
+INFO:casperfpga.wishbonedevice(192.168.2.102:lmx_ctrl):LMX2581 locked at 500 MHz
+INFO:casperfpga.snapadc:Configuring clock source switch
+DEBUG:casperfpga.snapadc:Reseting adc_unit
+DEBUG:casperfpga.snapadc:Initialising ADCs
+DEBUG:casperfpga.snapadc:Configuring ADC operating mode
+DEBUG:casperfpga.snapadc:Reprogramming the FPGA for ADCs
+DEBUG:casperfpga.snapadc:Reprogrammed
+DEBUG:casperfpga.snapadc:Configuring clock source switch
