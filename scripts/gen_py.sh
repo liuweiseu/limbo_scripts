@@ -1,5 +1,4 @@
 #! /bin/bash
 
-jupyter nbconvert ../*ipynb --to python
-mv ../*.py ./
-rm debugging.py
+jupyter nbconvert ../ipynb/*ipynb --to python
+mv ../ipynb/*.py ./
