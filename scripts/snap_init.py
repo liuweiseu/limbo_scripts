@@ -4,7 +4,7 @@
 # ## LIMBO Instrumentation
 # * requirements:
 #     * mlib_devel : m2019a branch
-#     * casperfpga : py38 branch, snapadc.py has to be changed
+#     * casperfpga : py38 branch
 
 # ### Step0: Import necessary packages
 
@@ -204,10 +204,6 @@ gbe1.configure_core(gbe1_src_mac, gbe1_src_ip, gbe1_src_port)
 gbe1.set_single_arp_entry(gbe1_dst_ip_str,gbe1_dst_mac)
 snap.registers['ip1'].write_int(gbe1_dst_ip)
 snap.registers['port1'].write_int(gbe1_dst_port)
-gbe1.fabric_enable()
-snap.registers['eth1_ctrl'].write_int(1+ 2 + (1<<18))
-time.sleep(0.1)
-snap.registers['eth1_ctrl'].write_int(0 +2 + (0<<18))
 
 
 # ### Step8 : Configre integration time and then rst the system

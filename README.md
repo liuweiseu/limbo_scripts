@@ -8,6 +8,8 @@
     pip install redis
     pip install matplotlib
     pip install scipy
+    pip install jupyter
+    pip install nbconvert
 ```
 ## Directory Structure
 ### ipynb
