@@ -28,7 +28,8 @@ import os
 # SNAP board info
 pmc_ip  = '192.168.2.102'
 port    = 69
-fpg_file= 'dsa10_2022-11-02_1656.fpg'
+#fpg_file= 'dsa10_2022-11-02_1656.fpg'
+fpg_file='dsa10_frb_2022-11-04_1844.fpg'
 # Parameters for spectrameter
 fs      = 500
 
@@ -48,10 +49,7 @@ pmc=casperfpga.CasperFpga(pmc_ip, port, logger=logger)
 # In[ ]:
 
 
-if os.path.exists('fpg/'+fpg_file):
-    fpg = 'fpg/'+fpg_file
-else:
-    fpg = '../fpg/'+fpg_file
+fpg = '../fpg/'+fpg_file
 print('fpg file: ',fpg)
 pmc.upload_to_ram_and_program(fpg)
 # We should get system info in "upload_to_ran_and_program", but it seems there are some issues in the casperfpga
@@ -111,9 +109,11 @@ for i in range(len(adc_data)):
 
 # ### Step6: plot adc data
 
-# In[231]:
+# In[14]:
 
 
+# define how many sample you want to plot
+n_plot = 64
 # Now, the script only supports 500MSps and 1000MSps
 if(fs==1000):
     # combine the 4 data streams into 1 stream
@@ -172,7 +172,7 @@ elif(fs==500):
     x=fs/Nfft*np.linspace(0,Nfft,Nfft)
     # plot adc_a_time and adc_a_fft
     plt_a_i_time = plt.subplot(2,2,1)
-    plt.plot(adc_a_i)
+    plt.plot(adc_a_i[1:n_plot])
     plt.title('adc_a_i_time')
     plt_a_i_fft = plt.subplot(2,2,2)
     a_i = np.array(adc_a_i)
@@ -181,7 +181,7 @@ elif(fs==500):
     plt.title('adc_a_i_fft')
     plt.xlabel('MHz')
     plt_a_q_time = plt.subplot(2,2,3)
-    plt.plot(adc_a_q)
+    plt.plot(adc_a_q[1:n_plot])
     plt.title('adc_a_q_time')
     plt_a_q_fft = plt.subplot(2,2,4)
     a_q = np.array(adc_a_q)
@@ -194,7 +194,7 @@ elif(fs==500):
 
     # plot adc_b_time and adc_b_fft
     plt_b_i_time = plt.subplot(2,2,1)
-    plt.plot(adc_b_i)
+    plt.plot(adc_b_i[1:n_plot])
     plt.title('adc_b_i_time')
     plt_b_i_fft = plt.subplot(2,2,2)
     b_i = np.array(adc_b_i)
@@ -203,7 +203,7 @@ elif(fs==500):
     plt.title('adc_b_i_fft')
     plt.xlabel('MHz')
     plt_b_q_time = plt.subplot(2,2,3)
-    plt.plot(adc_b_q)
+    plt.plot(adc_b_q[1:n_plot])
     plt.title('adc_b_q_time')
     plt_b_q_fft = plt.subplot(2,2,4)
     b_q = np.array(adc_b_q)
@@ -213,4 +213,10 @@ elif(fs==500):
     plt.xlabel('MHz')
     plt.tight_layout()
     plt.show()
+
+
+# In[ ]:
+
+
+
 
