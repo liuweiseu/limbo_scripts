@@ -2,6 +2,8 @@
 # coding: utf-8
 
 # ## SNAP--ADC test
+# * requirements:
+#     * casperfpga : [py38 branch](https://github.com/liuweiseu/casperfpga/commits/py38)
 # * ref: 10MHz
 # * resolution: 8bit
 # * sample_freq: 500MHz
@@ -32,6 +34,8 @@ port    = 69
 fpg_file='dsa10_frb_2022-11-04_1844.fpg'
 # Parameters for spectrameter
 fs      = 500
+# adc reference
+adc_ref = 10
 
 
 # ### Step2: Connect to the SNAP board
@@ -70,6 +74,7 @@ elif(fs==500):
     inputs = [1,1,3,3]
 # init adc and clk
 adc=pmc.adcs['snap_adc']
+adc.ref = adc_ref
 adc.selectADC()
 adc.init(sample_rate=fs,numChannel=numChannel)
 adc.rampTest(retry=True)
@@ -109,7 +114,7 @@ for i in range(len(adc_data)):
 
 # ### Step6: plot adc data
 
-# In[14]:
+# In[8]:
 
 
 # define how many sample you want to plot
@@ -213,10 +218,4 @@ elif(fs==500):
     plt.xlabel('MHz')
     plt.tight_layout()
     plt.show()
-
-
-# In[ ]:
-
-
-
 

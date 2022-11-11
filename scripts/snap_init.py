@@ -4,11 +4,11 @@
 # ## LIMBO Instrumentation
 # * requirements:
 #     * mlib_devel : m2019a branch
-#     * casperfpga : py38 branch
+#     * casperfpga : [py38 branch](https://github.com/liuweiseu/casperfpga/commits/py38)
 
 # ### Step0: Import necessary packages
 
-# In[ ]:
+# In[1]:
 
 
 import os
@@ -21,7 +21,7 @@ import redis
 
 # ### Step1: Set parameters
 
-# In[ ]:
+# In[7]:
 
 
 '''
@@ -57,6 +57,11 @@ spec_coeff = 7
 acc_len = 127
 
 '''
+ADC reference
+'''
+adc_ref = 10
+
+'''
 10GbE info
 '''
 # gbe0 info
@@ -85,7 +90,7 @@ gbe1_dst_port = 5000
 
 # ### Step2: Store register values into redis server
 
-# In[ ]:
+# In[3]:
 
 
 r = redis.Redis(host='localhost', port=6379, db=0)
@@ -113,7 +118,7 @@ for key in redis_set.keys():
 
 # ### Step3: Connect to the SNAP board 
 
-# In[ ]:
+# In[4]:
 
 
 logger=logging.getLogger('snap')
@@ -123,7 +128,7 @@ snap=casperfpga.CasperFpga(snap_ip, port, logger=logger)
 
 # ### Step4: Upload fpg file
 
-# In[ ]:
+# In[5]:
 
 
 fpg = '../fpg/'+fpg_file
@@ -135,7 +140,7 @@ snap.get_system_information(fpg,initialise_objects=False)
 
 # ### Step5: Init adc and clk
 
-# In[ ]:
+# In[8]:
 
 
 # numChannel depends on fs
@@ -147,6 +152,7 @@ elif(fs==500):
     inputs = [1,1,3,3]
 # init adc and clk
 adc=snap.adcs['snap_adc']
+adc.ref = adc_ref
 adc.selectADC()
 adc.init(sample_rate=fs,numChannel=numChannel)
 adc.rampTest(retry=True)
@@ -167,7 +173,7 @@ snap.registers['del8'].write_int(adc_delays[7])
 
 # ### Step6: Configure basic registers
 
-# In[ ]:
+# In[9]:
 
 
 # set snap_index
@@ -186,7 +192,7 @@ snap.registers['coeff1'].write_int(spec_coeff)
 
 # ### Step7: Configure 10GbE port
 
-# In[ ]:
+# In[10]:
 
 
 gbe0=snap.gbes['eth_gbe0']
@@ -208,7 +214,7 @@ snap.registers['port1'].write_int(gbe1_dst_port)
 
 # ### Step8 : Configre integration time and then rst the system
 
-# In[ ]:
+# In[11]:
 
 
 # set acc len
