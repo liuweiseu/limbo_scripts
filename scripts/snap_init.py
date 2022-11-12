@@ -54,7 +54,7 @@ data_sel = 2
 # spectra coefficient,which is the coefficient for the 64-bit spectra data
 spec_coeff = 7
 # acc len, which is related to the integration time for spectra data
-acc_len = 127
+acc_len = 128
 
 '''
 ADC reference
