@@ -3,12 +3,12 @@
 
 # ## LIMBO Instrumentation
 # * requirements:
-#     * mlib_devel : m2019a branch
+#     * mlib_devel : [m2019a branch](https://github.com/casper-astro/mlib_devel/tree/a6a1e4767340ff2a0f7856b1a0c7a1f3a582e4fc)
 #     * casperfpga : [py38 branch](https://github.com/liuweiseu/casperfpga/commits/py38)
 
 # ### Step0: Import necessary packages
 
-# In[1]:
+# In[ ]:
 
 
 import os
@@ -17,11 +17,13 @@ import casperfpga
 import logging
 import time
 import redis
+import numpy as np
+import struct
 
 
 # ### Step1: Set parameters
 
-# In[7]:
+# In[ ]:
 
 
 '''
@@ -29,13 +31,14 @@ SNAP board info
 '''
 snap_ip  = '192.168.2.102'
 port    = 69
-#fpg_file= 'dsa10_2022-11-02_1656.fpg'
-fpg_file='dsa10_frb_2022-11-04_1844.fpg'
+#fpg_file='dsa10_frb_2022-11-04_1844.fpg'
+fpg_file='limbo_500_2022-12-03_1749.fpg'
 '''
 Parameters for spectrameter
 ''' 
 # sample freq
 fs = 500
+#fs = 1000
 # snap id
 snap_id = 2
 # adc scale
@@ -54,7 +57,7 @@ data_sel = 2
 # spectra coefficient,which is the coefficient for the 64-bit spectra data
 spec_coeff = 7
 # acc len, which is related to the integration time for spectra data
-acc_len = 128
+acc_len = 127
 
 '''
 ADC reference
@@ -67,14 +70,14 @@ adc_ref = 10
 # gbe0 info
 # src
 gbe0_src_mac  = "00:08:0b:c4:17:00"
-gbe0_src_ip   = "192.168.2.101"
+gbe0_src_ip   = "192.168.2.103"
 gbe0_src_port = 4001
 # dst
 gbe0_dst_mac  = 0xf452141624a0
 # write register requires a int vaule, but set_single_arp_entry requires a string
 gbe0_dst_ip   = 192*(2**24) + 168*(2**16) + 2*(2**8) + 1
 gbe0_dst_ip_str='192.168.2.1'
-gbe0_dst_port = 5001
+gbe0_dst_port = 5000
 # gbe1 info
 # src
 gbe1_src_mac  = "00:08:0b:c4:17:01"
@@ -90,7 +93,7 @@ gbe1_dst_port = 5000
 
 # ### Step2: Store register values into redis server
 
-# In[3]:
+# In[ ]:
 
 
 r = redis.Redis(host='localhost', port=6379, db=0)
@@ -118,7 +121,7 @@ for key in redis_set.keys():
 
 # ### Step3: Connect to the SNAP board 
 
-# In[4]:
+# In[ ]:
 
 
 logger=logging.getLogger('snap')
@@ -128,7 +131,7 @@ snap=casperfpga.CasperFpga(snap_ip, port, logger=logger)
 
 # ### Step4: Upload fpg file
 
-# In[5]:
+# In[ ]:
 
 
 fpg = '../fpg/'+fpg_file
@@ -140,7 +143,7 @@ snap.get_system_information(fpg,initialise_objects=False)
 
 # ### Step5: Init adc and clk
 
-# In[8]:
+# In[ ]:
 
 
 # numChannel depends on fs
@@ -173,7 +176,7 @@ snap.registers['del8'].write_int(adc_delays[7])
 
 # ### Step6: Configure basic registers
 
-# In[9]:
+# In[ ]:
 
 
 # set snap_index
@@ -188,11 +191,18 @@ snap.registers['fft_shift'].write_int(fft_shift)
 snap.registers['sel1'].write_int(data_sel)
 # set coeff, which is the coefficient for the 64-bit spectra data
 snap.registers['coeff1'].write_int(spec_coeff)
+coeff = 2**12-1
+coeffs = np.ones(2048,'I')*coeff
+write_coeffs = struct.pack('>2048I',*coeffs)
+snap.write('eq_0_coeffs',write_coeffs)
+snap.write('eq_1_coeffs',write_coeffs)
+snap.write('eq_2_coeffs',write_coeffs)
+snap.write('eq_3_coeffs',write_coeffs)
 
 
 # ### Step7: Configure 10GbE port
 
-# In[10]:
+# In[ ]:
 
 
 gbe0=snap.gbes['eth_gbe0']
@@ -210,11 +220,12 @@ gbe1.configure_core(gbe1_src_mac, gbe1_src_ip, gbe1_src_port)
 gbe1.set_single_arp_entry(gbe1_dst_ip_str,gbe1_dst_mac)
 snap.registers['ip1'].write_int(gbe1_dst_ip)
 snap.registers['port1'].write_int(gbe1_dst_port)
+gbe1.fabric_disable()
 
 
 # ### Step8 : Configre integration time and then rst the system
 
-# In[11]:
+# In[ ]:
 
 
 # set acc len
@@ -226,7 +237,7 @@ time.sleep(0.1)
 snap.registers['force_sync'].write_int(1)
 
 
-# ### Step9: Enable or Disable 10GbE Port
+# ### Step9: Enable or Disable 10GbE port for Spectra data
 
 # In[ ]:
 
@@ -239,7 +250,33 @@ snap.registers['eth1_ctrl'].write_int(1+ 0 + (1<<18))
 
 
 # Enable 10GbE Port
+gbe1.fabric_enable()
 snap.registers['eth1_ctrl'].write_int(1+ 2 + (1<<18))
 time.sleep(0.1)
 snap.registers['eth1_ctrl'].write_int(0 +2 + (0<<18))
+
+
+# ### Step10: Enable or Disable 10GbE port for voltage data
+
+# In[ ]:
+
+
+# Disable 10GbE Port
+snap.registers['eth_ctrl'].write_int(1+ 0 + (1<<18))
+
+
+# In[ ]:
+
+
+# Enable 10GbE Port
+gbe0.fabric_enable()
+snap.registers['eth_ctrl'].write_int(1+ 0 + (1<<18))
+time.sleep(0.1)
+snap.registers['eth_ctrl'].write_int(0 +2 + (0<<18))
+
+
+# In[ ]:
+
+
+
 

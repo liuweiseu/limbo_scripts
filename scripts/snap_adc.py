@@ -30,8 +30,8 @@ import os
 # SNAP board info
 pmc_ip  = '192.168.2.102'
 port    = 69
-#fpg_file= 'dsa10_2022-11-02_1656.fpg'
-fpg_file='dsa10_frb_2022-11-04_1844.fpg'
+#fpg_file='dsa10_frb_2022-11-04_1844.fpg'
+fpg_file='limbo_500_2022-12-03_1749.fpg'
 # Parameters for spectrameter
 fs      = 500
 # adc reference
@@ -125,16 +125,26 @@ if(fs==1000):
     adc_a=[]
     adc_b=[]
     for i in range(len(adc_data)):
+        adc_a.append(adc_raw[1][i])
+        adc_a.append(adc_raw[0][i])
+        adc_a.append(adc_raw[3][i])
+        adc_a.append(adc_raw[2][i])
+        adc_b.append(adc_raw[5][i])
+        adc_b.append(adc_raw[4][i])
+        adc_b.append(adc_raw[7][i])
+        adc_b.append(adc_raw[6][i])
+        '''
         for j in range(3,-1,-1):
             adc_a.append(adc_raw[j][i])
             adc_b.append(adc_raw[j+4][i])
+        '''
 
     # cal x for the plot
     Nfft = len(adc_a)
     x=fs/Nfft*np.linspace(0,Nfft,Nfft)
     # plot adc_a_time and adc_a_fft
     plt_a_time = plt.subplot(2,1,1)
-    plt.plot(adc_a)
+    plt.plot(adc_a[1:n_plot])
     plt.title('adc_a_time')
     plt_a_fft = plt.subplot(2,1,2)
     a = np.array(adc_a)
@@ -147,7 +157,7 @@ if(fs==1000):
 
     # plot adc_b_time and adc_b_fft
     plt_b_time = plt.subplot(2,1,1)
-    plt.plot(adc_b[0:32])
+    plt.plot(adc_b[1:n_plot])
     plt.title('adc_b_time')
     plt_b_fft = plt.subplot(2,1,2)
     b = np.array(adc_b)
@@ -164,14 +174,14 @@ elif(fs==500):
     adc_b_i = []
     adc_b_q = []
     for i in range(len(adc_data)):
-        adc_a_i.append(adc_raw[1][i])
-        adc_a_i.append(adc_raw[0][i])
-        adc_a_q.append(adc_raw[3][i])
-        adc_a_q.append(adc_raw[2][i])
-        adc_b_i.append(adc_raw[5][i])
-        adc_b_i.append(adc_raw[4][i])
-        adc_b_q.append(adc_raw[7][i])
-        adc_b_q.append(adc_raw[6][i])
+        adc_a_i.append(adc_raw[3][i])
+        adc_a_i.append(adc_raw[2][i])
+        adc_a_q.append(adc_raw[1][i])
+        adc_a_q.append(adc_raw[0][i])
+        adc_b_i.append(adc_raw[7][i])
+        adc_b_i.append(adc_raw[6][i])
+        adc_b_q.append(adc_raw[5][i])
+        adc_b_q.append(adc_raw[4][i])
     # cal x for the plot
     Nfft = len(adc_a_i)
     x=fs/Nfft*np.linspace(0,Nfft,Nfft)
