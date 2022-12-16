@@ -8,7 +8,7 @@
 
 # ### Step0: Import necessary packages
 
-# In[ ]:
+# In[1]:
 
 
 import os
@@ -23,7 +23,7 @@ import struct
 
 # ### Step1: Set parameters
 
-# In[ ]:
+# In[2]:
 
 
 '''
@@ -33,6 +33,7 @@ snap_ip  = '192.168.2.102'
 port    = 69
 #fpg_file='dsa10_frb_2022-11-04_1844.fpg'
 fpg_file='limbo_500_2022-12-03_1749.fpg'
+#fpg_file='limbo_1000_2022-11-27_1758.fpg'
 '''
 Parameters for spectrameter
 ''' 
@@ -47,13 +48,14 @@ adc_scale = 0
 # adc delays: 8 delays for 8 sub channels 
 adc_delays = [5,5,5,5,5,5,5,5]
 # fft shift
-fft_shift = 65535
+#fft_shift = 0xfdb6
+fft_shift = 0xffff
 # data sel, which is used for selecting 16bits from 64-bit spectra data
 # sel: '0' selects 15-0 bit
 #      '1' selects 31:16 bit
 #      '2' selects 47-32 bit
 #      '3' selects 63-48 bit
-data_sel = 2
+data_sel = 1
 # spectra coefficient,which is the coefficient for the 64-bit spectra data
 spec_coeff = 7
 # acc len, which is related to the integration time for spectra data
@@ -81,7 +83,7 @@ gbe0_dst_port = 5000
 # gbe1 info
 # src
 gbe1_src_mac  = "00:08:0b:c4:17:01"
-gbe1_src_ip   = "192.168.2.102"
+gbe1_src_ip   = "192.168.2.104"
 gbe1_src_port = 4000
 # dst
 gbe1_dst_mac  = 0xf452141624a0
@@ -93,7 +95,7 @@ gbe1_dst_port = 5000
 
 # ### Step2: Store register values into redis server
 
-# In[ ]:
+# In[3]:
 
 
 r = redis.Redis(host='localhost', port=6379, db=0)
@@ -121,7 +123,7 @@ for key in redis_set.keys():
 
 # ### Step3: Connect to the SNAP board 
 
-# In[ ]:
+# In[4]:
 
 
 logger=logging.getLogger('snap')
@@ -131,7 +133,7 @@ snap=casperfpga.CasperFpga(snap_ip, port, logger=logger)
 
 # ### Step4: Upload fpg file
 
-# In[ ]:
+# In[5]:
 
 
 fpg = '../fpg/'+fpg_file
@@ -141,9 +143,9 @@ snap.upload_to_ram_and_program(fpg)
 snap.get_system_information(fpg,initialise_objects=False)
 
 
-# ### Step5: Init adc and clk
+# ### Step5: Init clk and adc
 
-# In[ ]:
+# In[6]:
 
 
 # numChannel depends on fs
@@ -172,12 +174,35 @@ snap.registers['del5'].write_int(adc_delays[4])
 snap.registers['del6'].write_int(adc_delays[5])
 snap.registers['del7'].write_int(adc_delays[6])
 snap.registers['del8'].write_int(adc_delays[7])
+adc.selectADC()
+adc.set_gain(16)
+
+
+# In[68]:
+
+
+adc.selectADC()
+adc.set_gain(16)
 
 
 # ### Step6: Configure basic registers
 
-# In[ ]:
+# In[16]:
 
+
+adc_scale = 0
+# adc delays: 8 delays for 8 sub channels 
+adc_delays = [5,5,5,5,5,5,5,5]
+# fft shift
+fft_shift = 0x7ff
+# data sel, which is used for selecting 16bits from 64-bit spectra data
+# sel: '0' selects 15-0 bit
+#      '1' selects 31:16 bit
+#      '2' selects 47-32 bit
+#      '3' selects 63-48 bit
+data_sel = 2
+# spectra coefficient,which is the coefficient for the 64-bit spectra data
+spec_coeff = 1024
 
 # set snap_index
 snap.registers['snap_index'].write_int(snap_id)
@@ -202,7 +227,7 @@ snap.write('eq_3_coeffs',write_coeffs)
 
 # ### Step7: Configure 10GbE port
 
-# In[ ]:
+# In[8]:
 
 
 gbe0=snap.gbes['eth_gbe0']
@@ -223,30 +248,32 @@ snap.registers['port1'].write_int(gbe1_dst_port)
 gbe1.fabric_disable()
 
 
-# ### Step8 : Configre integration time and then rst the system
+# ### Step8 : Configure integration time and then rst the system
 
-# In[ ]:
+# In[9]:
 
 
 # set acc len
 snap.registers['acc_len'].write_int(acc_len)
 # full rst
 snap.registers['force_sync'].write_int(2) 
+snap.registers['force_sync'].write_int(0) 
 time.sleep(0.1)
 # sync
 snap.registers['force_sync'].write_int(1)
+snap.registers['force_sync'].write_int(0) 
 
 
 # ### Step9: Enable or Disable 10GbE port for Spectra data
 
-# In[ ]:
+# In[10]:
 
 
 # Disable 10GbE Port
 snap.registers['eth1_ctrl'].write_int(1+ 0 + (1<<18))
 
 
-# In[ ]:
+# In[11]:
 
 
 # Enable 10GbE Port
@@ -278,5 +305,25 @@ snap.registers['eth_ctrl'].write_int(0 +2 + (0<<18))
 # In[ ]:
 
 
+# enable ramp mode for test
+#adc.adc.test("en_ramp")
+#adc.adc.test("off")
 
+# trig the snapshot
+snap.registers['adc_trig'].write_int(0)
+snap.registers['adc_trig'].write_int(1)
+# read adc data from snapshot
+snap.snapshots['adc_snap'].arm()
+data = snap.snapshots['adc_snap'].read()['data']
+adc_data = data['data']
+# get 8bit data from 64bit data
+adc_raw = [[],[],[],[],[],[],[],[]]
+for i in range(len(adc_data)):
+    for j in range(8):
+        tmp = adc_data[i] & 0xff
+        if(tmp < 128):
+            adc_raw[j].append(tmp)
+        else:
+            adc_raw[j].append(tmp-256)
+        adc_data[i] = adc_data[i]>>8
 

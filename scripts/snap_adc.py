@@ -28,7 +28,7 @@ import os
 
 
 # SNAP board info
-pmc_ip  = '192.168.2.102'
+snap_ip  = '192.168.2.102'
 port    = 69
 #fpg_file='dsa10_frb_2022-11-04_1844.fpg'
 fpg_file='limbo_500_2022-12-03_1749.fpg'
@@ -43,9 +43,9 @@ adc_ref = 10
 # In[ ]:
 
 
-logger=logging.getLogger('pmc')
+logger=logging.getLogger('snap')
 logging.basicConfig(filename='snap_adc.log',level=logging.DEBUG)
-pmc=casperfpga.CasperFpga(pmc_ip, port, logger=logger)
+snap=casperfpga.CasperFpga(snap_ip, port, logger=logger)
 
 
 # ### Step3: Upload fpg file
@@ -55,12 +55,12 @@ pmc=casperfpga.CasperFpga(pmc_ip, port, logger=logger)
 
 fpg = '../fpg/'+fpg_file
 print('fpg file: ',fpg)
-pmc.upload_to_ram_and_program(fpg)
+#snap.upload_to_ram_and_program(fpg)
 # We should get system info in "upload_to_ran_and_program", but it seems there are some issues in the casperfpga
-pmc.get_system_information(fpg,initialise_objects=False)
+snap.get_system_information(fpg,initialise_objects=False)
 
 
-# ### Step4: Init adc and clk
+# ### Step4: Init clk and adc
 
 # In[ ]:
 
@@ -73,7 +73,7 @@ elif(fs==500):
     numChannel = 2
     inputs = [1,1,3,3]
 # init adc and clk
-adc=pmc.adcs['snap_adc']
+adc=snap.adcs['snap_adc']
 adc.ref = adc_ref
 adc.selectADC()
 adc.init(sample_rate=fs,numChannel=numChannel)
@@ -81,7 +81,9 @@ adc.rampTest(retry=True)
 adc.adc.selectInput(inputs)
 # set adc scales
 # To-do: scale value for each channel is a 3-bits value
-pmc.registers['scaling'].write_int(0)
+snap.registers['scaling'].write_int(0)
+adc.selectADC()
+adc.set_gain(16)
 
 
 # ### Step5: Read adc data from snapshot 
@@ -94,11 +96,11 @@ pmc.registers['scaling'].write_int(0)
 #adc.adc.test("off")
 
 # trig the snapshot
-pmc.registers['adc_trig'].write_int(0)
-pmc.registers['adc_trig'].write_int(1)
+snap.registers['adc_trig'].write_int(0)
+snap.registers['adc_trig'].write_int(1)
 # read adc data from snapshot
-pmc.snapshots['adc_snap'].arm()
-data = pmc.snapshots['adc_snap'].read()['data']
+snap.snapshots['adc_snap'].arm()
+data = snap.snapshots['adc_snap'].read()['data']
 adc_data = data['data']
 # get 8bit data from 64bit data
 adc_raw = [[],[],[],[],[],[],[],[]]
@@ -114,7 +116,7 @@ for i in range(len(adc_data)):
 
 # ### Step6: plot adc data
 
-# In[8]:
+# In[7]:
 
 
 # define how many sample you want to plot
