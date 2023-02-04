@@ -23,13 +23,13 @@ import struct
 
 # ### Step1: Set parameters
 
-# In[2]:
+# In[6]:
 
 
 '''
 SNAP board info
 '''
-snap_ip  = '192.168.2.102'
+snap_ip  = '192.168.2.100'
 port    = 69
 #fpg_file='dsa10_frb_2022-11-04_1844.fpg'
 fpg_file='limbo_500_2022-12-03_1749.fpg'
@@ -42,14 +42,15 @@ fs = 500
 #fs = 1000
 # snap id
 snap_id = 2
+# adc gain: it's voltage multplier inside the ADC IC.
+adc_gain = 4
 # adc scale
 # To-do: scale value for each channel is a 3-bits value
 adc_scale = 0
 # adc delays: 8 delays for 8 sub channels 
 adc_delays = [5,5,5,5,5,5,5,5]
 # fft shift
-#fft_shift = 0xfdb6
-fft_shift = 0xffff
+fft_shift = 0x7ff
 # data sel, which is used for selecting 16bits from 64-bit spectra data
 # sel: '0' selects 15-0 bit
 #      '1' selects 31:16 bit
@@ -57,7 +58,7 @@ fft_shift = 0xffff
 #      '3' selects 63-48 bit
 data_sel = 1
 # spectra coefficient,which is the coefficient for the 64-bit spectra data
-spec_coeff = 7
+spec_coeff = 4
 # acc len, which is related to the integration time for spectra data
 acc_len = 127
 
@@ -65,6 +66,7 @@ acc_len = 127
 ADC reference
 '''
 adc_ref = 10
+#adc_ref = None
 
 '''
 10GbE info
@@ -76,6 +78,7 @@ gbe0_src_ip   = "192.168.2.103"
 gbe0_src_port = 4001
 # dst
 gbe0_dst_mac  = 0xf452141624a0
+#gbe0_dst_mac  = 0xf45214161ed0
 # write register requires a int vaule, but set_single_arp_entry requires a string
 gbe0_dst_ip   = 192*(2**24) + 168*(2**16) + 2*(2**8) + 1
 gbe0_dst_ip_str='192.168.2.1'
@@ -87,6 +90,7 @@ gbe1_src_ip   = "192.168.2.104"
 gbe1_src_port = 4000
 # dst
 gbe1_dst_mac  = 0xf452141624a0
+#gbe1_dst_mac  = 0xf45214161ed0
 # write register requires a int vaule, but set_single_arp_entry requires a string
 gbe1_dst_ip   = 192*(2**24) + 168*(2**16) + 2*(2**8) + 1
 gbe1_dst_ip_str='192.168.2.1'
@@ -95,7 +99,7 @@ gbe1_dst_port = 5000
 
 # ### Step2: Store register values into redis server
 
-# In[3]:
+# In[7]:
 
 
 r = redis.Redis(host='localhost', port=6379, db=0)
@@ -105,6 +109,7 @@ redis_set = {
       'SampleFreq'     : fs,
       'AccLen'         : acc_len,
       'FFTShift'       : fft_shift,
+      'AdcCoarseGain'  : adc_gain,
       'Scaling'        : adc_scale,
       'SpecCoeff'      : spec_coeff,
       'AdcDelay0'      : adc_delays[0],
@@ -123,7 +128,7 @@ for key in redis_set.keys():
 
 # ### Step3: Connect to the SNAP board 
 
-# In[4]:
+# In[8]:
 
 
 logger=logging.getLogger('snap')
@@ -133,7 +138,7 @@ snap=casperfpga.CasperFpga(snap_ip, port, logger=logger)
 
 # ### Step4: Upload fpg file
 
-# In[5]:
+# In[10]:
 
 
 fpg = '../fpg/'+fpg_file
@@ -145,7 +150,7 @@ snap.get_system_information(fpg,initialise_objects=False)
 
 # ### Step5: Init clk and adc
 
-# In[6]:
+# In[12]:
 
 
 # numChannel depends on fs
@@ -175,34 +180,27 @@ snap.registers['del6'].write_int(adc_delays[5])
 snap.registers['del7'].write_int(adc_delays[6])
 snap.registers['del8'].write_int(adc_delays[7])
 adc.selectADC()
-adc.set_gain(16)
-
-
-# In[68]:
-
-
-adc.selectADC()
-adc.set_gain(16)
+adc.set_gain(adc_gain)
 
 
 # ### Step6: Configure basic registers
 
-# In[16]:
+# In[14]:
 
 
-adc_scale = 0
+#adc_scale = 0
 # adc delays: 8 delays for 8 sub channels 
-adc_delays = [5,5,5,5,5,5,5,5]
+#adc_delays = [5,5,5,5,5,5,5,5]
 # fft shift
-fft_shift = 0x7ff
+#fft_shift = 0x7ff
 # data sel, which is used for selecting 16bits from 64-bit spectra data
 # sel: '0' selects 15-0 bit
 #      '1' selects 31:16 bit
 #      '2' selects 47-32 bit
 #      '3' selects 63-48 bit
-data_sel = 2
+#data_sel = 2
 # spectra coefficient,which is the coefficient for the 64-bit spectra data
-spec_coeff = 1024
+#spec_coeff = 1024
 
 # set snap_index
 snap.registers['snap_index'].write_int(snap_id)
@@ -227,7 +225,7 @@ snap.write('eq_3_coeffs',write_coeffs)
 
 # ### Step7: Configure 10GbE port
 
-# In[8]:
+# In[15]:
 
 
 gbe0=snap.gbes['eth_gbe0']
@@ -250,7 +248,7 @@ gbe1.fabric_disable()
 
 # ### Step8 : Configure integration time and then rst the system
 
-# In[9]:
+# In[16]:
 
 
 # set acc len
@@ -266,14 +264,14 @@ snap.registers['force_sync'].write_int(0)
 
 # ### Step9: Enable or Disable 10GbE port for Spectra data
 
-# In[10]:
+# In[17]:
 
 
 # Disable 10GbE Port
 snap.registers['eth1_ctrl'].write_int(1+ 0 + (1<<18))
 
 
-# In[11]:
+# In[18]:
 
 
 # Enable 10GbE Port
@@ -305,25 +303,5 @@ snap.registers['eth_ctrl'].write_int(0 +2 + (0<<18))
 # In[ ]:
 
 
-# enable ramp mode for test
-#adc.adc.test("en_ramp")
-#adc.adc.test("off")
 
-# trig the snapshot
-snap.registers['adc_trig'].write_int(0)
-snap.registers['adc_trig'].write_int(1)
-# read adc data from snapshot
-snap.snapshots['adc_snap'].arm()
-data = snap.snapshots['adc_snap'].read()['data']
-adc_data = data['data']
-# get 8bit data from 64bit data
-adc_raw = [[],[],[],[],[],[],[],[]]
-for i in range(len(adc_data)):
-    for j in range(8):
-        tmp = adc_data[i] & 0xff
-        if(tmp < 128):
-            adc_raw[j].append(tmp)
-        else:
-            adc_raw[j].append(tmp-256)
-        adc_data[i] = adc_data[i]>>8
 

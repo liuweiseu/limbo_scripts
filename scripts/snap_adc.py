@@ -10,7 +10,7 @@
 
 # ### Step0: Import necessary packages
 
-# In[ ]:
+# In[15]:
 
 
 import casperfpga
@@ -24,7 +24,7 @@ import os
 
 # ### Step1: Set parameters
 
-# In[ ]:
+# In[16]:
 
 
 # SNAP board info
@@ -36,11 +36,13 @@ fpg_file='limbo_500_2022-12-03_1749.fpg'
 fs      = 500
 # adc reference
 adc_ref = 10
+# if we want to use external ref, we need to set adc_ref to None
+# adc_ref = None
 
 
 # ### Step2: Connect to the SNAP board
 
-# In[ ]:
+# In[17]:
 
 
 logger=logging.getLogger('snap')
@@ -50,7 +52,7 @@ snap=casperfpga.CasperFpga(snap_ip, port, logger=logger)
 
 # ### Step3: Upload fpg file
 
-# In[ ]:
+# In[18]:
 
 
 fpg = '../fpg/'+fpg_file
@@ -62,7 +64,7 @@ snap.get_system_information(fpg,initialise_objects=False)
 
 # ### Step4: Init clk and adc
 
-# In[ ]:
+# In[19]:
 
 
 # numChannel depends on fs
@@ -83,12 +85,12 @@ adc.adc.selectInput(inputs)
 # To-do: scale value for each channel is a 3-bits value
 snap.registers['scaling'].write_int(0)
 adc.selectADC()
-adc.set_gain(16)
+adc.set_gain(4)
 
 
 # ### Step5: Read adc data from snapshot 
 
-# In[ ]:
+# In[27]:
 
 
 # enable ramp mode for test
@@ -116,7 +118,7 @@ for i in range(len(adc_data)):
 
 # ### Step6: plot adc data
 
-# In[7]:
+# In[28]:
 
 
 # define how many sample you want to plot
@@ -230,4 +232,28 @@ elif(fs==500):
     plt.xlabel('MHz')
     plt.tight_layout()
     plt.show()
+
+
+# In[29]:
+
+
+d=np.array(adc_a_i)
+rms=np.sqrt(np.mean(d**2))
+print(rms)
+d=np.array(adc_a_q)
+rms=np.sqrt(np.mean(d**2))
+print(rms)
+
+
+# In[23]:
+
+
+adc=snap.adcs['snap_adc']
+adc.set_gain(4)
+
+
+# In[ ]:
+
+
+
 
