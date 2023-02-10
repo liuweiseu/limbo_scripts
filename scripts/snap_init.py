@@ -8,7 +8,7 @@
 
 # ### Step0: Import necessary packages
 
-# In[1]:
+# In[3]:
 
 
 import os
@@ -23,7 +23,7 @@ import struct
 
 # ### Step1: Set parameters
 
-# In[6]:
+# In[9]:
 
 
 '''
@@ -99,7 +99,7 @@ gbe1_dst_port = 5000
 
 # ### Step2: Store register values into redis server
 
-# In[7]:
+# In[10]:
 
 
 r = redis.Redis(host='localhost', port=6379, db=0)
@@ -110,6 +110,7 @@ redis_set = {
       'AccLen'         : acc_len,
       'FFTShift'       : fft_shift,
       'AdcCoarseGain'  : adc_gain,
+      'data_sel'       : data_sel,
       'Scaling'        : adc_scale,
       'SpecCoeff'      : spec_coeff,
       'AdcDelay0'      : adc_delays[0],
@@ -128,7 +129,7 @@ for key in redis_set.keys():
 
 # ### Step3: Connect to the SNAP board 
 
-# In[8]:
+# In[6]:
 
 
 logger=logging.getLogger('snap')
@@ -138,7 +139,7 @@ snap=casperfpga.CasperFpga(snap_ip, port, logger=logger)
 
 # ### Step4: Upload fpg file
 
-# In[10]:
+# In[7]:
 
 
 fpg = '../fpg/'+fpg_file
@@ -185,7 +186,7 @@ adc.set_gain(adc_gain)
 
 # ### Step6: Configure basic registers
 
-# In[14]:
+# In[11]:
 
 
 #adc_scale = 0
