@@ -62,7 +62,7 @@ def check_rms(di, dq):
 #
 def check_clock(snap):
     clk_freq = snap.estimate_fpga_clock()
-    print('%s : %.6f MHz'%('Frabic Clock Freq'.rjust(18), clk_freq))
+    print('%s : %.6f MHz'%('Fabric Clock Freq'.rjust(18), clk_freq))
 
 # plot adc data in time domain and frequency domain
 #
@@ -73,22 +73,22 @@ def plot_adc(di, dq):
     Nfft = len(di)
     x=fs/Nfft*np.linspace(0,Nfft,Nfft)
     # plot adc_i_time and adc_i_fft
-    plt_a_time = plt.subplot(2,1,1)
+    plt_a_time = plt.subplot(2,2,1)
     plt.plot(di[1:n_plot])
     plt.title('adc_i_time')
-    plt_a_fft = plt.subplot(2,1,2)
+    plt_a_fft = plt.subplot(2,2,3)
     a = np.array(di)
     fft_a = fft(a)
     plt.plot(x,abs(fft_a))
     plt.title('adc_i_fft')
     plt.xlabel('MHz')
     plt.tight_layout()
-    plt.show()
+    #plt.show()
     # plot adc_q_time and adc_q_fft
-    plt_b_time = plt.subplot(2,1,1)
+    plt_b_time = plt.subplot(2,2,2)
     plt.plot(dq[1:n_plot])
     plt.title('adc_q_time')
-    plt_b_fft = plt.subplot(2,1,2)
+    plt_b_fft = plt.subplot(2,2,4)
     b = np.array(dq)
     fft_b = fft(b)
     plt.plot(x,abs(fft_b))
@@ -101,7 +101,7 @@ def main():
     parser = ArgumentParser(description="Usage for SNAP status checking")
     parser.add_argument("--ip",type=str, dest="ip", default="192.168.2.100",help="ip address of SNAP board")
     parser.add_argument("--port",type=int, dest="port", default=69,help="communication port of SNAP board")
-    parser.add_argument("--fpg",type=str, dest="fpg", default="limbo_500_2022-12-03_1749.fpg",help="the fpg file uploaded to the SNAP board")
+    parser.add_argument("--fpg",type=str, dest="fpg", default="limbo_500_2022-12-03_1749.fpg",help="fpg file uploaded to the SNAP board")
     parser.add_argument("--all", dest="check_all", action="store_true", default=False,help="Check all the status.")
     parser.add_argument("--clock", dest="check_clock", action="store_true", default=False,help="Check Clock for SNAP board.")
     parser.add_argument("--rms", dest="check_rms", action="store_true", default=False,help="Check ADC RMS.")
