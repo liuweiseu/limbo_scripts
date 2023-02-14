@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import casperfpga
+from casperfpga.snapadc import SnapAdc
 import logging
 import time
 import matplotlib.pyplot as plt
@@ -10,8 +11,22 @@ import os
 from argparse import ArgumentParser
 
 fs = 500
+adc_ref = 10
+devname='snapadc'
+# The device info could not match with your design,
+# but it doesn't impact on reading the snapadc snapshot out.
+devinfo={
+    'adc_resolution': 8,
+    'sample_rate': 500,
+    'snap_inputs': 2
+}
+# We define which adc chip is used here.
+# 0, 1, 2 means adc_chip a, b, c
+adc_chip = 1
+
 # read adc data from snapshot
 #
+'''
 def read_snapshot(snap):
     # trig the snapshot
     snap.registers['adc_trig'].write_int(0)
@@ -47,7 +62,15 @@ def read_snapshot(snap):
         adc_b_q.append(adc_raw[5][i])
         adc_b_q.append(adc_raw[4][i])
     return adc_a_i, adc_a_q, adc_b_i, adc_b_q
-
+'''
+def read_snapshot(snap):
+    adc=SnapAdc(snap, devname, devinfo)
+    adc.snapshot()
+    ss = adc.readRAM()
+    adc_d = ss[adc_chip]
+    adc_ch=adc_d.reshape(512,2)
+    adc_ch=adc_ch.transpose()
+    return adc_ch[0], adc_ch[1]
 # check the adc rms
 #
 def check_rms(di, dq):
@@ -101,7 +124,7 @@ def main():
     parser = ArgumentParser(description="Usage for SNAP status checking")
     parser.add_argument("--ip",type=str, dest="ip", default="192.168.2.100",help="ip address of SNAP board")
     parser.add_argument("--port",type=int, dest="port", default=69,help="communication port of SNAP board")
-    parser.add_argument("--fpg",type=str, dest="fpg", default="limbo_500_2022-12-03_1749.fpg",help="fpg file uploaded to the SNAP board")
+    parser.add_argument("--fpg",type=str, dest="fpg",help="fpg file you want to upload to the SNAP board")
     parser.add_argument("--all", dest="check_all", action="store_true", default=False,help="Check all the status.")
     parser.add_argument("--clock", dest="check_clock", action="store_true", default=False,help="Check Clock for SNAP board.")
     parser.add_argument("--rms", dest="check_rms", action="store_true", default=False,help="Check ADC RMS.")
@@ -120,16 +143,31 @@ def main():
         print('SNAP board is not connected.')
         print('Please check the SNAP board.')
         return
-
+        # check if we need to upload fpg file
     # upload fpg file
-    fpg = '../fpg/'+opts.fpg
-    snap.get_system_information(fpg,initialise_objects=False)
+    if(opts.fpg):
+        snap.upload_to_ram_and_program(opts.fpg)
+        snap.get_system_information(opts.fpg,initialise_objects=False)
+        # init adc
+        # numChannel depends on fs
+        if(fs==1000):
+            numChannel = 1
+            inputs = [1,1,1,1]
+        elif(fs==500):
+            numChannel = 2
+            inputs = [1,1,3,3]
+        # init adc and clk
+        adc=snap.adcs['snap_adc']
+        adc.ref = adc_ref
+        adc.selectADC()
+        adc.init(sample_rate=fs,numChannel=numChannel)
+        adc.rampTest(retry=True)
+        adc.adc.selectInput(inputs)
+        
     # read adc data fron snapshot
     adc_a_i = []
     adc_a_q = []
-    adc_b_i = []
-    adc_b_q = []
-    adc_a_i, adc_a_q, adc_b_i, adc_b_q = read_snapshot(snap)
+    adc_a_q, adc_a_i = read_snapshot(snap)
 
     # check all the status, including clock and rms
     if(opts.check_all == True):
@@ -145,6 +183,7 @@ def main():
     if(opts.plot == True):
         plot_adc(adc_a_i, adc_a_q)
     print('**************************************')
+
 if __name__ == "__main__":
     main()
 
