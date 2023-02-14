@@ -132,7 +132,7 @@ def main():
     opts = parser.parse_args()
     
     print('**************************************')
-    print('--SNAP Board IP: ', opts.ip)
+    print('SNAP Board IP: ', opts.ip)
     print('**************************************')
     # connect to the SNAP board
     logger=logging.getLogger('snap')
@@ -143,11 +143,14 @@ def main():
         print('SNAP board is not connected.')
         print('Please check the SNAP board.')
         return
-        # check if we need to upload fpg file
+    
+    # check if we need to upload fpg file
     # upload fpg file
     if(opts.fpg):
+        print('Uploading %s ...'%opts.fpg)
         snap.upload_to_ram_and_program(opts.fpg)
         snap.get_system_information(opts.fpg,initialise_objects=False)
+        print('Initializing snapadc...')
         # init adc
         # numChannel depends on fs
         if(fs==1000):
@@ -163,7 +166,8 @@ def main():
         adc.init(sample_rate=fs,numChannel=numChannel)
         adc.rampTest(retry=True)
         adc.adc.selectInput(inputs)
-        
+        print('**************************************')
+    
     # read adc data fron snapshot
     adc_a_i = []
     adc_a_q = []
