@@ -40,6 +40,7 @@ You can run `python check_status.py -h` to get more options.
 The fpg files used in the scripts are here.  
 ### figures
 limbo-block-diagram: It shows the registers used in the FPGA design. You can change these register values in the snap_init.py.  
+  
 ![figure](figures/limbo-block-diagram.png)
 ## Getting Start
 There are two ways to configure the SNAP board.
