@@ -8,7 +8,7 @@
 
 # ### Step0: Import necessary packages
 
-# In[3]:
+# In[1]:
 
 
 import os
@@ -23,7 +23,7 @@ import struct
 
 # ### Step1: Set parameters
 
-# In[9]:
+# In[2]:
 
 
 '''
@@ -99,7 +99,7 @@ gbe1_dst_port = 5000
 
 # ### Step2: Store register values into redis server
 
-# In[10]:
+# In[3]:
 
 
 r = redis.Redis(host='localhost', port=6379, db=0)
@@ -129,7 +129,7 @@ for key in redis_set.keys():
 
 # ### Step3: Connect to the SNAP board 
 
-# In[6]:
+# In[4]:
 
 
 logger=logging.getLogger('snap')
@@ -139,7 +139,7 @@ snap=casperfpga.CasperFpga(snap_ip, port, logger=logger)
 
 # ### Step4: Upload fpg file
 
-# In[7]:
+# In[6]:
 
 
 fpg = '../fpg/'+fpg_file
@@ -151,7 +151,7 @@ snap.get_system_information(fpg,initialise_objects=False)
 
 # ### Step5: Init clk and adc
 
-# In[12]:
+# In[7]:
 
 
 # numChannel depends on fs
@@ -186,7 +186,7 @@ adc.set_gain(adc_gain)
 
 # ### Step6: Configure basic registers
 
-# In[11]:
+# In[8]:
 
 
 #adc_scale = 0
@@ -226,7 +226,7 @@ snap.write('eq_3_coeffs',write_coeffs)
 
 # ### Step7: Configure 10GbE port
 
-# In[15]:
+# In[9]:
 
 
 gbe0=snap.gbes['eth_gbe0']
@@ -249,7 +249,7 @@ gbe1.fabric_disable()
 
 # ### Step8 : Configure integration time and then rst the system
 
-# In[16]:
+# In[10]:
 
 
 # set acc len
@@ -265,14 +265,14 @@ snap.registers['force_sync'].write_int(0)
 
 # ### Step9: Enable or Disable 10GbE port for Spectra data
 
-# In[17]:
+# In[11]:
 
 
 # Disable 10GbE Port
 snap.registers['eth1_ctrl'].write_int(1+ 0 + (1<<18))
 
 
-# In[18]:
+# In[12]:
 
 
 # Enable 10GbE Port
