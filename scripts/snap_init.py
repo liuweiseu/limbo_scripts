@@ -288,17 +288,17 @@ snap.registers['eth1_ctrl'].write_int(0 +2 + (0<<18))
 
 
 # Disable 10GbE Port
-snap.registers['eth_ctrl'].write_int(1+ 0 + (1<<18))
+#snap.registers['eth_ctrl'].write_int(1+ 0 + (1<<18))
 
 
 # In[ ]:
 
 
 # Enable 10GbE Port
-gbe0.fabric_enable()
-snap.registers['eth_ctrl'].write_int(1+ 0 + (1<<18))
-time.sleep(0.1)
-snap.registers['eth_ctrl'].write_int(0 +2 + (0<<18))
+#gbe0.fabric_enable()
+#snap.registers['eth_ctrl'].write_int(1+ 0 + (1<<18))
+#time.sleep(0.1)
+#snap.registers['eth_ctrl'].write_int(0 +2 + (0<<18))
 
 
 # In[ ]:
