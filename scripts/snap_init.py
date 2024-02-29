@@ -8,7 +8,7 @@
 
 # ### Step0: Import necessary packages
 
-# In[3]:
+# In[1]:
 
 
 import os
@@ -23,7 +23,7 @@ import struct
 
 # ### Step1: Set parameters
 
-# In[9]:
+# In[2]:
 
 
 '''
@@ -31,9 +31,9 @@ SNAP board info
 '''
 snap_ip  = '192.168.2.100'
 port    = 69
-#fpg_file='dsa10_frb_2022-11-04_1844.fpg'
-fpg_file='limbo_500_2022-12-03_1749.fpg'
-#fpg_file='limbo_1000_2022-11-27_1758.fpg'
+
+#fpg_file='limbo_500_2022-12-03_1749.fpg'
+fpg_file='limbo_500_m_2023-05-09_1203.fpg'
 '''
 Parameters for spectrameter
 ''' 
@@ -61,6 +61,9 @@ data_sel = 1
 spec_coeff = 4
 # acc len, which is related to the integration time for spectra data
 acc_len = 127
+# the eq values are used for voltage data
+pol0_eq_coeff = 468*2**7
+pol1_eq_coeff = 468*2**7
 
 '''
 ADC reference
@@ -99,7 +102,7 @@ gbe1_dst_port = 5000
 
 # ### Step2: Store register values into redis server
 
-# In[10]:
+# In[3]:
 
 
 r = redis.Redis(host='localhost', port=6379, db=0)
@@ -113,6 +116,8 @@ redis_set = {
       'data_sel'       : data_sel,
       'Scaling'        : adc_scale,
       'SpecCoeff'      : spec_coeff,
+      'Pol0EqCoeff'    : pol0_eq_coeff,
+      'Pol1EqCoeff'    : pol1_eq_coeff,
       'AdcDelay0'      : adc_delays[0],
       'AdcDelay1'      : adc_delays[1],
       'AdcDelay2'      : adc_delays[2],
@@ -129,7 +134,7 @@ for key in redis_set.keys():
 
 # ### Step3: Connect to the SNAP board 
 
-# In[6]:
+# In[4]:
 
 
 logger=logging.getLogger('snap')
@@ -139,7 +144,7 @@ snap=casperfpga.CasperFpga(snap_ip, port, logger=logger)
 
 # ### Step4: Upload fpg file
 
-# In[7]:
+# In[6]:
 
 
 fpg = '../fpg/'+fpg_file
@@ -151,7 +156,7 @@ snap.get_system_information(fpg,initialise_objects=False)
 
 # ### Step5: Init clk and adc
 
-# In[12]:
+# In[20]:
 
 
 # numChannel depends on fs
@@ -186,7 +191,7 @@ adc.set_gain(adc_gain)
 
 # ### Step6: Configure basic registers
 
-# In[11]:
+# In[7]:
 
 
 #adc_scale = 0
@@ -215,18 +220,20 @@ snap.registers['fft_shift'].write_int(fft_shift)
 snap.registers['sel1'].write_int(data_sel)
 # set coeff, which is the coefficient for the 64-bit spectra data
 snap.registers['coeff1'].write_int(spec_coeff)
-coeff = 2**12-1
-coeffs = np.ones(2048,'I')*coeff
-write_coeffs = struct.pack('>2048I',*coeffs)
-snap.write('eq_0_coeffs',write_coeffs)
-snap.write('eq_1_coeffs',write_coeffs)
-snap.write('eq_2_coeffs',write_coeffs)
-snap.write('eq_3_coeffs',write_coeffs)
+# set the eq values
+pol0_coeffs = np.ones(2048,'I')*pol0_eq_coeff
+pol1_coeffs = np.ones(2048,'I')*pol1_eq_coeff
+pol0_write_coeffs = struct.pack('>2048I',*pol0_coeffs)
+pol1_write_coeffs = struct.pack('>2048I',*pol1_coeffs)
+snap.write('eq_0_coeffs',pol0_write_coeffs)
+snap.write('eq_1_coeffs',pol1_write_coeffs)
+snap.write('eq_2_coeffs',pol0_write_coeffs)
+snap.write('eq_3_coeffs',pol1_write_coeffs)
 
 
 # ### Step7: Configure 10GbE port
 
-# In[15]:
+# In[22]:
 
 
 gbe0=snap.gbes['eth_gbe0']
@@ -249,7 +256,7 @@ gbe1.fabric_disable()
 
 # ### Step8 : Configure integration time and then rst the system
 
-# In[16]:
+# In[23]:
 
 
 # set acc len
@@ -265,14 +272,14 @@ snap.registers['force_sync'].write_int(0)
 
 # ### Step9: Enable or Disable 10GbE port for Spectra data
 
-# In[17]:
+# In[24]:
 
 
 # Disable 10GbE Port
 snap.registers['eth1_ctrl'].write_int(1+ 0 + (1<<18))
 
 
-# In[18]:
+# In[25]:
 
 
 # Enable 10GbE Port
@@ -284,14 +291,14 @@ snap.registers['eth1_ctrl'].write_int(0 +2 + (0<<18))
 
 # ### Step10: Enable or Disable 10GbE port for voltage data
 
-# In[ ]:
+# In[26]:
 
 
 # Disable 10GbE Port
 snap.registers['eth_ctrl'].write_int(1+ 0 + (1<<18))
 
 
-# In[ ]:
+# In[27]:
 
 
 # Enable 10GbE Port
@@ -299,10 +306,4 @@ gbe0.fabric_enable()
 snap.registers['eth_ctrl'].write_int(1+ 0 + (1<<18))
 time.sleep(0.1)
 snap.registers['eth_ctrl'].write_int(0 +2 + (0<<18))
-
-
-# In[ ]:
-
-
-
 

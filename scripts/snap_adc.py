@@ -10,7 +10,7 @@
 
 # ### Step0: Import necessary packages
 
-# In[1]:
+# In[ ]:
 
 
 import casperfpga
@@ -24,7 +24,7 @@ import os
 
 # ### Step1: Set parameters
 
-# In[4]:
+# In[ ]:
 
 
 # SNAP board info
@@ -42,7 +42,7 @@ adc_ref = 10
 
 # ### Step2: Connect to the SNAP board
 
-# In[5]:
+# In[ ]:
 
 
 logger=logging.getLogger('snap')
@@ -52,7 +52,7 @@ snap=casperfpga.CasperFpga(snap_ip, port, logger=logger)
 
 # ### Step3: Upload fpg file
 
-# In[6]:
+# In[ ]:
 
 
 fpg = '../fpg/'+fpg_file
@@ -64,7 +64,7 @@ snap.get_system_information(fpg,initialise_objects=False)
 
 # ### Step4: Init clk and adc
 
-# In[19]:
+# In[ ]:
 
 
 # numChannel depends on fs
@@ -90,7 +90,7 @@ adc.set_gain(4)
 
 # ### Step5: Read adc data from snapshot 
 
-# In[7]:
+# In[ ]:
 
 
 # enable ramp mode for test
@@ -118,7 +118,7 @@ for i in range(len(adc_data)):
 
 # ### Step6: plot adc data
 
-# In[8]:
+# In[ ]:
 
 
 # define how many sample you want to plot
@@ -234,7 +234,7 @@ elif(fs==500):
     plt.show()
 
 
-# In[9]:
+# In[ ]:
 
 
 d=np.array(adc_a_i)
@@ -245,7 +245,7 @@ rms=np.sqrt(np.mean(d**2))
 print(rms)
 
 
-# In[23]:
+# In[ ]:
 
 
 adc=snap.adcs['snap_adc']
