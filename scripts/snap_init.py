@@ -74,14 +74,14 @@ adc_ref = 10
 # gbe0 info
 # src
 gbe0_src_mac  = "00:08:0b:c4:17:00"
-gbe0_src_ip   = "192.168.2.103"
+gbe0_src_ip   = "192.168.3.103"
 gbe0_src_port = 4001
 # dst
-gbe0_dst_mac  = 0xf452141624a0
-#gbe0_dst_mac  = 0xf45214161ed0
+#gbe0_dst_mac  = 0xf452141624a0
+gbe0_dst_mac  = 0xf45214161ed0
 # write register requires a int vaule, but set_single_arp_entry requires a string
-gbe0_dst_ip   = 192*(2**24) + 168*(2**16) + 2*(2**8) + 1
-gbe0_dst_ip_str='192.168.2.1'
+gbe0_dst_ip   = 192*(2**24) + 168*(2**16) + 3*(2**8) + 1
+gbe0_dst_ip_str='192.168.3.1'
 gbe0_dst_port = 5000
 # gbe1 info
 # src
