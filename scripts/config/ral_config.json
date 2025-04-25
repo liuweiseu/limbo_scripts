@@ -1,0 +1,39 @@
+{
+    "gbe0": {
+        "src_ip": "192.168.3.103",
+        "src_mac": "00:08:0b:c4:17:00",
+        "src_port": 4001,
+        "dst_ip": "192.168.3.1",
+        "dst_mac": "1c:34:da:e3:a9:91",
+        "dst_port": 5000
+    },
+    "gbe1": {
+        "src_ip": "192.168.1.104",
+        "src_mac": "00:08:0b:c4:17:01",
+        "src_port": 4000,
+        "dst_ip": "192.168.1.100",
+        "dst_mac": "1c:34:da:e3:a9:90",
+        "dst_port": 5000
+    },
+    "adc_ref": 10,
+    "fs": 500,
+    "snap_id": 2,
+    "adc_gain": 4,
+    "adc_scale": 0,
+    "adc_delays": [
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5
+    ],
+    "fft_shift": 2047,
+    "acc_len": 127,
+    "spec_coeff": 4,
+    "data_sel": 1,
+    "pol0_eq_coeff": 59904,
+    "pol1_eq_coeff": 59904
+}
