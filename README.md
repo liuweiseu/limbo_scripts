@@ -52,6 +52,63 @@ Go to ./scripts, and run
 ```
     python snap_init.py
 ```
+If you run `python snap_init.py -h`, you will see the options like this:
+```
+$ python snap_init.py -h
+usage: snap_init.py [-h] [-i IP] [-f FPG] [-c CONFIG]
+
+Process SNAP board configuration
+
+optional arguments:
+-h, --help            show this help message and exit
+-i IP, --ip IP        The IP address of the SNAP board
+-f FPG, --fpg FPG     The fpg file name
+-c CONFIG, --config CONFIG
+                        Path to the configuration file
+```
+The default `IP` is `192.168.2.100`, the default `fpg` file is `limbo_500_m_2023-05-09_1203.fpg`, and  the default `config` file `leuschner_config.json`.  
+If in the config file, you will see the parameters used in the script:
+```
+{
+    "gbe0": {
+        "src_ip": "192.168.3.103",
+        "src_mac": "00:08:0b:c4:17:00",
+        "src_port": 4001,
+        "dst_ip": "192.168.3.1",
+        "dst_mac": "f4:52:14:16:1e:d0",
+        "dst_port": 5000
+    },
+    "gbe1": {
+        "src_ip": "192.168.2.104",
+        "src_mac": "00:08:0b:c4:17:01",
+        "src_port": 4000,
+        "dst_ip": "192.168.2.1",
+        "dst_mac": "f4:52:14:16:24:a0",
+        "dst_port": 5000
+    },
+    "adc_ref": 10,
+    "fs": 500,
+    "snap_id": 2,
+    "adc_gain": 4,
+    "adc_scale": 0,
+    "adc_delays": [
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5
+    ],
+    "fft_shift": 2047,
+    "acc_len": 127,
+    "spec_coeff": 4,
+    "data_sel": 1,
+    "pol0_eq_coeff": 59904,
+    "pol1_eq_coeff": 59904
+}
+```
 ## IP configuration after power cycle
 The SNAP board gets an IP from the DHCP server.  
 Let's assume the SNAP configuration port is connected to `enp30s` port on a server(limbo server at Leuscher), where a DHCP server(dnsmasq) is running.  
