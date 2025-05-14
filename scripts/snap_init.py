@@ -22,7 +22,27 @@ import struct
 from argparse import ArgumentParser
 import json
 
+import subprocess
+import re
 
+def get_mac_by_ip(ip_address):
+    try:
+        # ping the IP to make sure we can get it in the ARP table
+        subprocess.run(["ping", "-c", "1", ip_address], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        
+        # get the arp table
+        arp_output = subprocess.check_output(["arp", "-n", ip_address], text=True)
+        
+        # parse the MAC (Linux only）
+        mac_match = re.search(r"(([0-9a-f]{2}:){5}[0-9a-f]{2})", arp_output, re.IGNORECASE)
+        if mac_match:
+            return mac_match.group(0)
+        else:
+            return None
+    except Exception as e:
+        print(f"Error: {e}")
+        return None
+    
 def macs2i(mac_str):
     return int(mac_str.replace(":", ""), 16)
 
@@ -50,6 +70,11 @@ if __name__ == "__main__":
     snap_ip  = args.ip
     port    = 69
     fpg_file = args.fpg
+
+    # ### Get the mac
+    snap_mac = get_mac_by_ip(snap_ip)
+    if snap_mac == None:
+        raise Exception('SNAP is not pingable.')
     # ### Step1: Get parameters from config file
     '''
     Parameters for spectrameter
@@ -111,7 +136,8 @@ if __name__ == "__main__":
 
     # gbe1 info
     # gbe1 src
-    gbe1_src_mac = config['gbe1']['src_mac']
+    # gbe1_src_mac = config['gbe1']['src_mac']
+    gbe1_src_mac = snap_mac
     gbe1_src_ip  = config['gbe1']['src_ip']
     gbe1_src_port = config['gbe1']['src_port']
     # gbe1 dst
@@ -229,7 +255,6 @@ if __name__ == "__main__":
     snap.write('eq_2_coeffs',pol0_write_coeffs)
     snap.write('eq_3_coeffs',pol1_write_coeffs)
 
-
     # ### Step7: Configure 10GbE port
     gbe0=snap.gbes['eth_gbe0']
     gbe1=snap.gbes['eth1_gbe1']
@@ -240,6 +265,7 @@ if __name__ == "__main__":
     snap.registers['ip'].write_int(gbe0_dst_ip)
     snap.registers['port'].write_int(gbe0_dst_port)
     gbe0.fabric_disable()
+
 
     # configure gbe1
     gbe1.configure_core(gbe1_src_mac, gbe1_src_ip, gbe1_src_port)
